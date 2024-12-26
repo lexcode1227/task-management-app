@@ -1,16 +1,34 @@
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Dashboard from "./pages/Dashboard";
+
 function App() {
+  const httpLink = new HttpLink({
+    uri: import.meta.env.VITE_REACT_APP_GRAPHQL_URI,
+    headers: {
+      authorization: `Bearer ${import.meta.env.VITE_BEAREER_TOKEN}`,
+    },
+  });
+
+  const client = new ApolloClient({
+    link: httpLink,
+    cache: new InMemoryCache(),
+  });
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 p-8">
-      <div className="rounded-lg bg-white p-10 text-center shadow-lg">
-        <h1 className="mb-4 text-5xl font-extrabold text-gray-900">
-          React Vite Tailwind Template
-        </h1>
-        <h2 className="text-xl text-gray-700">
-          Created with Vite React TS CLI. This is an opinionated react app with
-          a specific project structure and optional dependencies
-        </h2>
-      </div>
-    </main>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/task" element={<Dashboard />} />
+          <Route path="/task/:id" element={<Dashboard />} />
+        </Routes>
+      </BrowserRouter>
+    </ApolloProvider>
   );
 }
 
