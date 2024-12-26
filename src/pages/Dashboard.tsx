@@ -1,10 +1,8 @@
-import Sidebar from "../components/ui/Sidebar";
-
 const Dashboard = () => {
   return (
-    <main className="h-screen bg-color_neutral_5 p-8">
-      <Sidebar />
-    </main>
+    <section className="p-8">
+      <h1 className="text-3xl font-bold text-color_primary_4">Dashboard</h1>
+    </section>
   );
 };
 
