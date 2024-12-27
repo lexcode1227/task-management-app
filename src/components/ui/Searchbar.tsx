@@ -1,8 +1,22 @@
+import { gql, useQuery } from "@apollo/client";
 import { Input, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useProfileQuery } from "../../graphql/graphql";
+
+const GET_USER = gql`
+  query Profile {
+    profile {
+      id
+      fullName
+      email
+      avatar
+      createdAt
+      updatedAt
+      type
+    }
+  }
+`;
 
 const Searchbar = () => {
-    const { data } = useProfileQuery();
+    const { data } = useQuery(GET_USER);
     console.log(data);
     
   return (

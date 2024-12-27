@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prettier": "prettier --write .",
-    "typecheck": "tsc --project tsconfig.json --noEmit"
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.7.8",
@@ -23,7 +24,7 @@
   "devDependencies": {
     "@0no-co/graphqlsp": "^1.12.16",
     "@eslint/js": "^9.17.0",
-    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/cli": "5.0.3",
     "@graphql-codegen/schema-ast": "^4.1.0",
     "@graphql-codegen/typescript": "^4.1.2",
     "@graphql-codegen/typescript-operations": "^4.4.0",
@@ -45,6 +46,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "@graphql-codegen/client-preset": "4.5.1"
   }
 }
