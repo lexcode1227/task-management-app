@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import logoRavn from "../../assets/images/Logo-Ravn.svg";
 import { NavLink } from "react-router";
-import Iconwrapper from "./Iconwrapper";
 import DashboardIcon from "../../assets/icons/menu-square.svg?react";
 import TasksIcon from "../../assets/icons/menu-hamburguer.svg?react";
 
