@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import Dashboard from "./pages/Dashboard";
 import { client } from "./apollo";
 import Tasks from "./pages/Tasks";
-import Layout from "./components/layouts/layout";
+import Layout from "./components/layouts/Layout";
 
 function App() {
   return (
