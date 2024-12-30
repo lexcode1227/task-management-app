@@ -28,15 +28,6 @@ const Dashboard = () => {
         { titleTag: "IOS APP" }
       ],
       avatarUrl: "https://eu.ui-avatars.com/api/?name=HA&size=250"
-    },
-    {
-      id: 4,
-      title: "Facebook",
-      points: "5 Points",
-      tags: [
-        { titleTag: "IOS APP" }
-      ],
-      avatarUrl: "https://eu.ui-avatars.com/api/?name=HA&size=250"
     }
   ]
   return (
