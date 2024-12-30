@@ -9,17 +9,18 @@ import Tags from "./Tags";
 import Dropdown from "./Dropdown";
 
 interface CardProps {
-  title: string;
+  name: string;
   points: string;
-  tags: { titleTag: string; icon?: React.ReactNode; bgColor?: string; textColor?: string }[];
-  avatarUrl: string;
+  // tags: { titleTag: string; icon?: React.ReactNode; bgColor?: string; textColor?: string }[];
+  tags: string[];
+  avatar: string;
 }
 
-const Card = ({ title, points, tags, avatarUrl }: CardProps) => {
+const Card = ({ name, points, tags, avatar }: CardProps) => {
   return (
-    <article className="flex h-52 w-[348px] flex-col items-center gap-4 rounded-lg bg-color_neutral_4 p-4 text-white">
+    <article className="flex h-52 w-full flex-col items-center gap-4 rounded-lg bg-color_neutral_4 p-4 text-white">
       <div className="flex w-full items-center justify-between">
-        <h3 className="py-[2.5px] text-body-L font-bold">{title}</h3>
+        <h3 className="py-[2.5px] text-body-L font-bold">{name}</h3>
         <Dropdown 
           icon={<MenuDotsIcon width={24} height={24} />} 
           options={[
@@ -32,19 +33,17 @@ const Card = ({ title, points, tags, avatarUrl }: CardProps) => {
         <h4 className="text-body-M font-bold">{points}</h4>
         <Tags titleTag="Today" icon={<ClockIcon/>} bgColor="bg-color_neutral_2/10" textColor="text-color_neutral_1" />
       </div>
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-start gap-2">
         {tags.map((tag, index) => (
             <Tags
               key={index}
-              titleTag={tag.titleTag}
-              bgColor={tag.bgColor}
-              textColor={tag.textColor}
+              titleTag={tag}
             />
           ))}
       </div>
       <div className="flex w-full items-center justify-between">
         <img
-          src={avatarUrl}
+          src={avatar}
           alt="user avatar"
           className="w-8 rounded-full"
         />

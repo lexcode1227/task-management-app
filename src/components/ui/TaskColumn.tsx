@@ -6,23 +6,23 @@ interface TaskColumnProps {
     cards: Cards[];
 }
 
-const TaskColumn = ({ title, cards }: TaskColumnProps) => {
+const TaskColumn = ({ title, cards }: TaskColumnProps) => {  
   return (
-    <section className="flex flex-col gap-4 w-full w-max-[348px]">
+    <section className="lg:w-[348px] flex w-full flex-col gap-4">
       <h2 className="text-body-L font-bold text-color_neutral_1">{title}</h2>
-      <div className="flex flex-col gap-4 overflow-y-auto h-[calc(100vh-240px)]">
+      <div className="flex h-[calc(100vh-240px)] flex-col gap-4 overflow-y-auto">
         {cards.map((card) => (
-            <Card
-              key={card.id}
-              title={card.title}
-              points={card.points}
-              tags={card.tags}
-              avatarUrl={card.avatarUrl}
-            />
+          <Card
+            key={card.id}
+            name={card.name}
+            points={card.pointEstimate}
+            tags={card.tags}
+            avatar={card.assignee.avatar}
+          />
         ))}
       </div>
     </section>
-  )
+  );
 }
 
 export default TaskColumn

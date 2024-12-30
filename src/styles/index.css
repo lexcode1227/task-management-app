@@ -28,3 +28,7 @@
   background: #393D41;
   border-radius: 10px;
 }
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
