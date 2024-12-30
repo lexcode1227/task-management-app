@@ -3,28 +3,48 @@ import ClockIcon from "../../assets/icons/clock-icon.svg?react";
 import MessageIcon from "../../assets/icons/message-icon.svg?react";
 import SchemaIcon from "../../assets/icons/schema-icon.svg?react";
 import FileIcon from "../../assets/icons/file-icon.svg?react";
+import DeleteIcon from "../../assets/icons/delete-icon.svg?react";
+import EditIcon from "../../assets/icons/edit-icon.svg?react";
 import Tags from "./Tags";
+import Dropdown from "./Dropdown";
 
-const Card = () => {
+interface CardProps {
+  title: string;
+  points: string;
+  tags: { titleTag: string; icon?: React.ReactNode; bgColor?: string; textColor?: string }[];
+  avatarUrl: string;
+}
+
+const Card = ({ title, points, tags, avatarUrl }: CardProps) => {
   return (
-    <article className="flex h-52 w-[348px] flex-col items-center gap-4 rounded-lg bg-color_primary_4/10 p-4 text-white">
+    <article className="flex h-52 w-[348px] flex-col items-center gap-4 rounded-lg bg-color_neutral_4 p-4 text-white">
       <div className="flex w-full items-center justify-between">
-        <h2 className="py-[2.5px] text-body-L font-bold">Twitter</h2>
-        <MenuDotsIcon width={24} height={24} />
-      </div>
-      <div className="flex w-full items-center justify-between px-4 py-1">
-        <h3>3 Pts</h3>
-        <span className="flex items-center justify-between gap-2">
-          <ClockIcon width={24} height={24} />
-          Today
-        </span>
+        <h3 className="py-[2.5px] text-body-L font-bold">{title}</h3>
+        <Dropdown 
+          icon={<MenuDotsIcon width={24} height={24} />} 
+          options={[
+            { label: "Edit", icon: <EditIcon/>, onClick: () => console.log("Edit") }, 
+            { label: "Delete", icon: <DeleteIcon/>, onClick: () => console.log("Delete") }
+          ]} 
+        />
       </div>
       <div className="flex w-full items-center justify-between">
-        <Tags titleTag="IOS APP" />
+        <h4 className="text-body-M font-bold">{points}</h4>
+        <Tags titleTag="Today" icon={<ClockIcon/>} bgColor="bg-color_neutral_2/10" textColor="text-color_neutral_1" />
+      </div>
+      <div className="flex w-full items-center justify-between">
+        {tags.map((tag, index) => (
+            <Tags
+              key={index}
+              titleTag={tag.titleTag}
+              bgColor={tag.bgColor}
+              textColor={tag.textColor}
+            />
+          ))}
       </div>
       <div className="flex w-full items-center justify-between">
         <img
-          src="https://eu.ui-avatars.com/api/?name=HA&size=250"
+          src={avatarUrl}
           alt="user avatar"
           className="w-8 rounded-full"
         />

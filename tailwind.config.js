@@ -18,6 +18,7 @@ export default {
         color_tertiary_4: "#E5B454",
         color_neutral_1: "#FFFFFF",
         color_neutral_2: "#94979A",
+        color_neutral_3: "#393D41",
         color_neutral_4: "#2C2F33",
         color_neutral_5: "#222528",
       },

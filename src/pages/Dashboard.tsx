@@ -1,10 +1,41 @@
-import Card from "../components/ui/Card";
+import TaskColumn from "../components/ui/TaskColumn";
+import ClockIcon from "../assets/icons/clock-icon.svg?react";
 
 const Dashboard = () => {
+  const cardsArr = [
+    {
+      id: 1,
+      title: "Slack",
+      points: "5 Points",
+      tags: [
+        { titleTag: "IOS APP" }
+      ],
+      avatarUrl: "https://eu.ui-avatars.com/api/?name=HA&size=250"
+    },
+    {
+      id: 2,
+      title: "Twitter",
+      points: "3 Points",
+      tags: [
+        { titleTag: "IOS APP" }
+      ],
+      avatarUrl: "https://eu.ui-avatars.com/api/?name=HA&size=250"
+    },
+    {
+      id: 3,
+      title: "Instagram",
+      points: "8 Points",
+      tags: [
+        { titleTag: "IOS APP" }
+      ],
+      avatarUrl: "https://eu.ui-avatars.com/api/?name=HA&size=250"
+    }
+  ]
   return (
-    <section className="w-full p-8">
-      <h1 className="text-3xl font-bold text-color_primary_4">Dashboard</h1>
-      <Card />
+    <section className="w-full flex gap-4">
+      <TaskColumn title="Working (03)" cards={cardsArr} />
+      <TaskColumn title="In progress (03)" cards={cardsArr} />
+      <TaskColumn title="Completed (03)" cards={cardsArr} />
     </section>
   );
 };
