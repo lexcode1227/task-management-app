@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import TaskColumn from "../components/ui/TaskColumn";
+import TaskColumnSkeleton from "../components/ui/TaskColumnSkeleton";
 
 const GET_TASKS = gql`
   query getTasks ($input: FilterTaskInput!) {
@@ -25,7 +26,7 @@ const Dashboard = () => {
   });
   console.log(data);
   
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <TaskColumnSkeleton/>;
   if (error) return <p>Error :(</p>;
 
   const backlogTasks = data.tasks.filter(
