@@ -1,5 +1,4 @@
 import TaskColumn from "../components/ui/TaskColumn";
-import ClockIcon from "../assets/icons/clock-icon.svg?react";
 
 const Dashboard = () => {
   const cardsArr = [
@@ -25,6 +24,15 @@ const Dashboard = () => {
       id: 3,
       title: "Instagram",
       points: "8 Points",
+      tags: [
+        { titleTag: "IOS APP" }
+      ],
+      avatarUrl: "https://eu.ui-avatars.com/api/?name=HA&size=250"
+    },
+    {
+      id: 4,
+      title: "Facebook",
+      points: "5 Points",
       tags: [
         { titleTag: "IOS APP" }
       ],

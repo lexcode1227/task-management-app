@@ -10,7 +10,7 @@ const TaskColumn = ({ title, cards }: TaskColumnProps) => {
   return (
     <section className="flex flex-col gap-4 w-full w-max-[348px]">
       <h2 className="text-body-L font-bold text-color_neutral_1">{title}</h2>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 overflow-y-auto h-[calc(100vh-240px)]">
         {cards.map((card) => (
             <Card
               key={card.id}

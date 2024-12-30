@@ -23,7 +23,7 @@ const Sidebar = () => {
   console.log(data);
 
   return (
-    <aside className="flex h-full w-full max-w-60 flex-col items-center rounded-3xl bg-color_neutral_4 pt-3">
+    <aside className="flex w-full max-w-60 flex-col items-center rounded-3xl bg-color_neutral_4 pt-3 mb-8">
       <img src={logoRavn} alt="logo Ravn" className="mb-11 size-12" />
       <nav className="font-bold text-color_neutral_2">
         <ul className="flex flex-col gap-2">

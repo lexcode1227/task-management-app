@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Layout: React.FunctionComponent<Props> = (props: Props) => {
-  return <main className="flex gap-8 h-screen w-full bg-color_neutral_5 p-8">
+  return <main className="flex gap-8 h-screen w-full bg-color_neutral_5 p-8 pb-0">
     <Sidebar/>
     <section className="w-full">
         <Searchbar/>
