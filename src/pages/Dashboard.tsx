@@ -1,4 +1,4 @@
-import DashboardView from "../components/ui/features/DashboardView";
+import DashboardView from "../components/features/DashboardView";
 
 const Dashboard = () => {
   return <DashboardView/>

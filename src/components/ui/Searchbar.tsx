@@ -1,4 +1,3 @@
-import { useProfileInformationQuery } from "../../gql/graphql";
 import SearchIcon from "../../assets/icons/search-icon.svg?react"
 import BellIcon from "../../assets/icons/bell-icon.svg?react"
 import UserIcon from "../../assets/icons/user-icon.svg?react"
@@ -6,8 +5,6 @@ import Dropdown from "./Dropdown";
 import { useNavigate } from "react-router";
 
 const Searchbar = () => {
-    const { data } = useProfileInformationQuery();
-    console.log(data);
     const navigate = useNavigate();
     
   return (
