@@ -1,11 +1,11 @@
 import { Button, Input, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useProfileQuery } from "../../gql/graphql";
+import { useProfileInformationQuery } from "../../gql/graphql";
 import SearchIcon from "../../assets/icons/search-icon.svg?react"
 import BellIcon from "../../assets/icons/bell-icon.svg?react"
 import { NavLink } from "react-router";
 
 const Searchbar = () => {
-    const { data } = useProfileQuery();
+    const { data } = useProfileInformationQuery();
     console.log(data);
     
   return (

@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
-    "\n  query Profile {\n    profile {\n      id\n      fullName\n      email\n      avatar\n      createdAt\n      updatedAt\n      type\n    }\n  }\n": types.ProfileDocument,
+    "\n  query Profile {\n    profile {\n      id\n      fullName\n      email\n      avatar\n      createdAt\n      updatedAt\n      type\n    }\n  }\n": types.ProfileInformationDocument,
 };
 
 /**

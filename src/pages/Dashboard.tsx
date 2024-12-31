@@ -1,25 +1,9 @@
-import { gql, useQuery } from "@apollo/client";
 import TaskColumn from "../components/ui/TaskColumn";
 import TaskColumnSkeleton from "../components/ui/TaskColumnSkeleton";
-
-const GET_TASKS = gql`
-  query getTasks ($input: FilterTaskInput!) {
-    tasks(input: $input) {
-      id
-      assignee {
-        id
-        avatar
-      }
-      tags
-      status
-      pointEstimate
-      name
-    }
-  }
-`;
+import { useGetTasksQuery } from "../gql/graphql";
 
 const Dashboard = () => {
-  const { loading, error, data } = useQuery(GET_TASKS, {
+  const { loading, error, data } = useGetTasksQuery({
     variables: {
       input: {},
     },
@@ -27,17 +11,17 @@ const Dashboard = () => {
   console.log(data);
   
   if (loading) return <TaskColumnSkeleton/>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error</p>;
 
-  const backlogTasks = data.tasks.filter(
-    (task: any) => task.status === "BACKLOG",
+  const backlogTasks = data?.tasks.filter(
+    (task) => task.status === "BACKLOG",
   );
-  const todoTasks = data.tasks.filter((task: any) => task.status === "TODO");
-  const inProgressTasks = data.tasks.filter(
-    (task: any) => task.status === "IN_PROGRESS",
+  const todoTasks = data?.tasks.filter((task) => task.status === "TODO");
+  const inProgressTasks = data?.tasks.filter(
+    (task) => task.status === "IN_PROGRESS",
   );
-  const cancelledTasks = data.tasks.filter(
-    (task: any) => task.status === "CANCELLED",
+  const cancelledTasks = data?.tasks.filter(
+    (task) => task.status === "CANCELLED",
   );
   return (
     <section className="w-[1108px] flex-1 overflow-x-auto overscroll-x-none scroll-hidden">

@@ -144,76 +144,73 @@ export enum UserType {
   Candidate = 'CANDIDATE'
 }
 
-export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProfileInformationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProfileQuery = { __typename?: 'Query', profile: { __typename?: 'User', id: string, fullName: string, email: string, avatar?: string | null, createdAt: any, updatedAt: any, type: UserType } };
+export type ProfileInformationQuery = { __typename?: 'Query', profile: { __typename?: 'User', id: string, fullName: string, email: string, avatar?: string | null } };
 
 export type GetTasksQueryVariables = Exact<{
   input: FilterTaskInput;
 }>;
 
 
-export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, tags: Array<TaskTag>, status: Status, pointEstimate: PointEstimate, name: string, assignee?: { __typename?: 'User', id: string, avatar?: string | null } | null }> };
+export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, pointEstimate: PointEstimate, status: Status, tags: Array<TaskTag>, assignee?: { __typename?: 'User', id: string, avatar?: string | null } | null }> };
 
 
-export const ProfileDocument = gql`
-    query Profile {
+export const ProfileInformationDocument = gql`
+    query ProfileInformation {
   profile {
     id
     fullName
     email
     avatar
-    createdAt
-    updatedAt
-    type
   }
 }
     `;
 
 /**
- * __useProfileQuery__
+ * __useProfileInformationQuery__
  *
- * To run a query within a React component, call `useProfileQuery` and pass it any options that fit your needs.
- * When your component renders, `useProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProfileInformationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProfileInformationQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useProfileQuery({
+ * const { data, loading, error } = useProfileInformationQuery({
  *   variables: {
  *   },
  * });
  */
-export function useProfileQuery(baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+export function useProfileInformationQuery(baseOptions?: Apollo.QueryHookOptions<ProfileInformationQuery, ProfileInformationQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+        return Apollo.useQuery<ProfileInformationQuery, ProfileInformationQueryVariables>(ProfileInformationDocument, options);
       }
-export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+export function useProfileInformationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileInformationQuery, ProfileInformationQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+          return Apollo.useLazyQuery<ProfileInformationQuery, ProfileInformationQueryVariables>(ProfileInformationDocument, options);
         }
-export function useProfileSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+export function useProfileInformationSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ProfileInformationQuery, ProfileInformationQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, options);
+          return Apollo.useSuspenseQuery<ProfileInformationQuery, ProfileInformationQueryVariables>(ProfileInformationDocument, options);
         }
-export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
-export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
-export type ProfileSuspenseQueryHookResult = ReturnType<typeof useProfileSuspenseQuery>;
-export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export type ProfileInformationQueryHookResult = ReturnType<typeof useProfileInformationQuery>;
+export type ProfileInformationLazyQueryHookResult = ReturnType<typeof useProfileInformationLazyQuery>;
+export type ProfileInformationSuspenseQueryHookResult = ReturnType<typeof useProfileInformationSuspenseQuery>;
+export type ProfileInformationQueryResult = Apollo.QueryResult<ProfileInformationQuery, ProfileInformationQueryVariables>;
 export const GetTasksDocument = gql`
     query getTasks($input: FilterTaskInput!) {
   tasks(input: $input) {
     id
+    name
+    pointEstimate
+    status
+    tags
     assignee {
       id
       avatar
     }
-    tags
-    status
-    pointEstimate
-    name
   }
 }
     `;
