@@ -11,6 +11,22 @@ query getTasks($input: FilterTaskInput!) {
     assignee {
       id
       avatar
+      createdAt
+      email
+      fullName
+      type
+      updatedAt
+    }
+    createdAt
+    dueDate
+    position
+    creator {
+      id
+      createdAt
+      email
+      fullName
+      type
+      updatedAt
     }
   }
 }

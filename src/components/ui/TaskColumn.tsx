@@ -1,23 +1,23 @@
-import { Cards } from "../../types";
+import { Status, Task } from "../../gql/graphql";
 import Card from "./Card";
+import TaskColumnSkeleton from "./TaskColumnSkeleton";
 
 interface TaskColumnProps {
-    title: string;
-    cards: Cards[];
+  status: Status;
+  tasks: Task[];
 }
 
-const TaskColumn = ({ title, cards }: TaskColumnProps) => {  
+const TaskColumn = ({ status, tasks }: TaskColumnProps ) => {
+  if (!tasks) return <TaskColumnSkeleton />;
+
   return (
     <section className="lg:w-[348px] flex w-full flex-col gap-4">
-      <h2 className="text-body-L font-bold text-color_neutral_1">{title}</h2>
+      <h2 className="text-body-L font-bold text-color_neutral_1">{status} ({tasks.length})</h2>
       <div className="flex h-[calc(100vh-240px)] flex-col gap-4 overflow-y-auto">
-        {cards.map((card) => (
+        {tasks?.map((task) => (
           <Card
-            key={card.id}
-            name={card.name}
-            points={card.pointEstimate}
-            tags={card.tags}
-            avatar={card.assignee.avatar}
+            key={task.id}
+            task={task}
           />
         ))}
       </div>

@@ -7,20 +7,13 @@ import DeleteIcon from "../../assets/icons/delete-icon.svg?react";
 import EditIcon from "../../assets/icons/edit-icon.svg?react";
 import Tags from "./Tags";
 import Dropdown from "./Dropdown";
+import { Task } from "../../gql/graphql";
 
-interface CardProps {
-  name: string;
-  points: string;
-  // tags: { titleTag: string; icon?: React.ReactNode; bgColor?: string; textColor?: string }[];
-  tags: string[];
-  avatar: string;
-}
-
-const Card = ({ name, points, tags, avatar }: CardProps) => {
+const Card = ({ task }: {task: Task}) => {
   return (
     <article className="flex h-52 w-full flex-col items-center gap-4 rounded-lg bg-color_neutral_4 p-4 text-white">
       <div className="flex w-full items-center justify-between">
-        <h3 className="py-[2.5px] text-body-L font-bold">{name}</h3>
+        <h3 className="py-[2.5px] text-body-L font-bold">{task.name}</h3>
         <Dropdown 
           icon={<MenuDotsIcon width={24} height={24} />} 
           options={[
@@ -30,11 +23,11 @@ const Card = ({ name, points, tags, avatar }: CardProps) => {
         />
       </div>
       <div className="flex w-full items-center justify-between">
-        <h4 className="text-body-M font-bold">{points}</h4>
+        <h4 className="text-body-M font-bold">{task.pointEstimate}</h4>
         <Tags titleTag="Today" icon={<ClockIcon/>} bgColor="bg-color_neutral_2/10" textColor="text-color_neutral_1" />
       </div>
       <div className="flex w-full items-center justify-start gap-2">
-        {tags.map((tag, index) => (
+        {task?.tags?.map((tag, index) => (
             <Tags
               key={index}
               titleTag={tag}
@@ -43,7 +36,7 @@ const Card = ({ name, points, tags, avatar }: CardProps) => {
       </div>
       <div className="flex w-full items-center justify-between">
         <img
-          src={avatar}
+          src={task.assignee?.avatar || ""}
           alt="user avatar"
           className="w-8 rounded-full"
         />

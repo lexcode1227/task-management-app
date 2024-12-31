@@ -154,7 +154,7 @@ export type GetTasksQueryVariables = Exact<{
 }>;
 
 
-export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, pointEstimate: PointEstimate, status: Status, tags: Array<TaskTag>, assignee?: { __typename?: 'User', id: string, avatar?: string | null } | null }> };
+export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, pointEstimate: PointEstimate, status: Status, tags: Array<TaskTag>, createdAt: any, dueDate: any, position: number, assignee?: { __typename?: 'User', id: string, avatar?: string | null, createdAt: any, email: string, fullName: string, type: UserType, updatedAt: any } | null, creator: { __typename?: 'User', id: string, createdAt: any, email: string, fullName: string, type: UserType, updatedAt: any } }> };
 
 
 export const ProfileInformationDocument = gql`
@@ -210,6 +210,22 @@ export const GetTasksDocument = gql`
     assignee {
       id
       avatar
+      createdAt
+      email
+      fullName
+      type
+      updatedAt
+    }
+    createdAt
+    dueDate
+    position
+    creator {
+      id
+      createdAt
+      email
+      fullName
+      type
+      updatedAt
     }
   }
 }

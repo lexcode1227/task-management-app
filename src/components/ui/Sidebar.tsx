@@ -1,25 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
 import logoRavn from "../../assets/images/Logo-Ravn.svg";
 import { NavLink } from "react-router";
 import DashboardIcon from "../../assets/icons/menu-square.svg?react";
 import TasksIcon from "../../assets/icons/menu-hamburguer.svg?react";
-
-const GET_USER = gql`
-  query Profile {
-    profile {
-      id
-      fullName
-      email
-      avatar
-      createdAt
-      updatedAt
-      type
-    }
-  }
-`;
+import { useProfileInformationQuery } from "../../gql/graphql";
 
 const Sidebar = () => {
-  const { data } = useQuery(GET_USER);
+  const { data } = useProfileInformationQuery();
   console.log(data);
 
   return (
