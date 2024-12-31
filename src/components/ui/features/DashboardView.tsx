@@ -18,7 +18,7 @@ const DashboardView = () => {
     const statusColumn = [...new Set(tasks.map((task) => task.status))];
 
       return (
-        <section className="w-[1108px] flex-1 overflow-x-auto overscroll-x-none scroll-hidden">
+        <section className="w-full flex-1 overflow-x-auto overscroll-x-none scroll-hidden">
           <div className="flex min-w-max gap-8">
             {statusColumn.map((status) => (
               <TaskColumn

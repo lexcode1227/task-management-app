@@ -10,10 +10,10 @@ const Layout = ({children}: Props) => {
   return (
     <main className="flex gap-8 h-screen w-full bg-color_neutral_5 p-8 pb-0">
       <Sidebar/>
-      <section className="w-full">
+      <section className="w-[calc(100vw-328px)] flex flex-col">
           <Searchbar/>
           <Topbar/>
-          <section className="w-full mt-4">
+          <section className="mt-4">
               {children}
           </section>
       </section>
