@@ -1,8 +1,9 @@
 import { useGetTasksQuery } from "../../gql/graphql";
 import Error from "./../errors/Error";
-import TaskColumn from "../ui/TaskColumn";
 import TaskColumnSkeleton from "../ui/TaskColumnSkeleton";
 import { useAppStore } from "../../store/store";
+import GridView from "./GridView";
+import TableView from "./TableView";
 
 const DashboardView = () => {
     const viewMode = useAppStore((state) => state.viewMode);
@@ -12,7 +13,6 @@ const DashboardView = () => {
           input: {},
         },
       });
-      console.log(data);
       const tasks = data?.tasks || [];
       
       if (loading) return <TaskColumnSkeleton/>;
@@ -23,19 +23,9 @@ const DashboardView = () => {
       return (
         <section className="w-full flex-1 overflow-x-auto overscroll-x-none scroll-hidden">
           { viewMode === "grid" ? 
-            <div className="flex min-w-max gap-8">
-              {statusOptions.map((status) => (
-                <TaskColumn
-                      key={status}
-                      status={status}
-                      tasks={tasks.filter(task => task.status === status)}
-                  />
-              ))}
-            </div>
+            <GridView statusOptions={statusOptions} tasks={tasks} />
           : 
-            <div className="grid grid-cols-3 gap-8">
-              <h2>Table View</h2>
-            </div>
+            <TableView statusOptions={statusOptions} tasks={tasks} />
           }
         </section>
       );
