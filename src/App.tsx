@@ -1,5 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import Dashboard from "./pages/Dashboard";
 import { client } from "./apollo";
 import Tasks from "./pages/Tasks";
@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route path="/" element={<Navigate to={"/dashboard"}/>} />
+            <Route path="/" element={<Dashboard/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/task/:id" element={<Dashboard />} />
