@@ -1,5 +1,5 @@
 import { useGetTasksQuery } from "../../gql/graphql";
-import Error from "./../errors/Error";
+import ErrorLayout from "./../errors/Error";
 import TaskColumnSkeleton from "../ui/TaskColumnSkeleton";
 import { useAppStore } from "../../store/store";
 import GridView from "./GridView";
@@ -16,7 +16,7 @@ const DashboardView = () => {
       const tasks = data?.tasks || [];
       
       if (loading) return <TaskColumnSkeleton/>;
-      if (error) return <Error message={error.message} />;
+      if (error) return <ErrorLayout message={error.message} />;
     
     const statusOptions = [...new Set(tasks.map((task) => task.status))];
 

@@ -7,9 +7,46 @@ import DeleteIcon from "../../assets/icons/delete-icon.svg?react";
 import EditIcon from "../../assets/icons/edit-icon.svg?react";
 import Tags from "./Tags";
 import Dropdown from "./Dropdown";
-import { Task } from "../../gql/graphql";
+import { Task, useDeleteTaskMutation } from "../../gql/graphql";
+import ErrorLayout from "../errors/Error";
+import { toast } from "sonner";
 
-const Card = ({ task }: {task: Task}) => {
+const Card = ({ task }: { task: Task }) => {
+  const [deleteTaskMutation, { loading, error }] = useDeleteTaskMutation({
+    update(cache, { data }) {
+      if (!data?.deleteTask) return;
+
+      cache.modify({
+        fields: {
+          tasks(existingTasks = [], { readField }) {
+            return existingTasks.filter(
+              (taskRef: any) => readField("id", taskRef) !== data.deleteTask.id,
+            );
+          },
+        },
+      });
+    },
+  });
+
+  const handleDelete = async () => {
+      try {
+        confirm(`Deleting task with id: ${task.id}`) == true &&
+        await  deleteTaskMutation({
+            variables: {
+              input: {
+                id: task.id,
+              },
+            },
+        });
+        toast.success(`Task with ID:${task.id} deleted successfully`);
+      } catch (err) {
+        toast.error(`Error deleting task with ID: ${task.id} due to: ${error?.message}`);
+      }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <ErrorLayout message={error.message} />;
+
   return (
     <article className="flex h-52 w-full flex-col items-center gap-4 rounded-lg bg-color_neutral_4 p-4 text-white">
       <div className="flex w-full items-center justify-between">
@@ -25,7 +62,7 @@ const Card = ({ task }: {task: Task}) => {
             {
               label: "Delete",
               icon: <DeleteIcon />,
-              onClick: () => console.log("Delete"),
+              onClick: () => handleDelete(),
             },
           ]}
         />
@@ -65,6 +102,6 @@ const Card = ({ task }: {task: Task}) => {
       </div>
     </article>
   );
-}
+};
 
 export default Card

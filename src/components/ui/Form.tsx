@@ -4,7 +4,7 @@ import { taskSchema } from "../../validations/taskSchema";
 import { CreateTaskInput, PointEstimate, Status, TaskTag, useCreateTaskMutation, useGetUsersQuery } from "../../gql/graphql";
 import { toast } from "sonner";
 import * as Dialog from "@radix-ui/react-dialog";
-import { gql } from "@apollo/client";
+import { CREATE_TASK_FRAGMENT } from "../../gql/query/fragments";
 
 interface FormProps {
     handleClose: () => void;
@@ -19,40 +19,24 @@ const Form = ({ handleClose }: FormProps) => {
     });
     const { data: usersData, loading: usersLoading,  } = useGetUsersQuery();
 
-    const [createTaskMutation, { data, loading, error }] = useCreateTaskMutation({
+    const [createTaskMutation, { loading, error }] = useCreateTaskMutation({
       update(cache, { data }) {
         if (!data?.createTask) return;
-
-        // Agregar la nueva tarea a la lista cacheada
         cache.modify({
           fields: {
             tasks(existingTasks = []) {
-              // Crear una referencia para la nueva tarea
+
               const newTaskRef = cache.writeFragment({
                 data: data.createTask,
-                fragment: gql`
-                  fragment NewTask on Task {
-                    id
-                    name
-                    creator {
-                      fullName
-                    }
-                    pointEstimate
-                    status
-                    tags
-                    dueDate
-                  }
-                `,
+                fragment: CREATE_TASK_FRAGMENT,
               });
 
-              // Retornar la lista actualizada con la nueva tarea
               return [...existingTasks, newTaskRef];
             },
           },
         });
       },
     });
-    console.log(data);
 
     const estimateOptions = Object.entries(PointEstimate).map(
       ([key, value]) => (

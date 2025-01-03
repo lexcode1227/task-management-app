@@ -1,9 +1,9 @@
 import { useGetTasksQuery } from "../../gql/graphql";
 import { useAppStore } from "../../store/store";
+import ErrorLayout from "../errors/Error";
 import TaskColumnSkeleton from "../ui/TaskColumnSkeleton";
 import GridView from "./GridView";
 import TableView from "./TableView";
-
 
 const MyTasksView = () => {
     const viewMode = useAppStore((state) => state.viewMode);
@@ -19,7 +19,7 @@ const MyTasksView = () => {
       const tasks = data?.tasks || [];
       
       if (loading) return <TaskColumnSkeleton/>;
-      if (error) return <p>{error.message} </p>
+      if (error) return <ErrorLayout message={error.message}/>
     
     const statusOptions = [...new Set(tasks.map((task) => task.status))];
   

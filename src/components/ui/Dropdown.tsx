@@ -1,6 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import React from 'react';
-
+// import { Task } from "../../gql/graphql";
+// type TaskID = Pick<Task, "id">;
 interface DropdownOption {
   label: string;
   icon: React.ReactNode;
@@ -31,7 +32,7 @@ const Dropdown = ({ title, icon, options }: DropdownProps) => {
             <DropdownMenu.Item
               key={index}
               className="flex items-center gap-2 p-2 rounded-md cursor-pointer text-white text-body-M font-bold hover:bg-color_neutral_4 focus:outline-none"
-              onClick={option.onClick}
+              onClick={() => option.onClick()}
             >
               {option.icon && <span>{option.icon}</span>}
               {option.label}
