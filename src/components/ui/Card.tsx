@@ -14,29 +14,40 @@ const Card = ({ task }: {task: Task}) => {
     <article className="flex h-52 w-full flex-col items-center gap-4 rounded-lg bg-color_neutral_4 p-4 text-white">
       <div className="flex w-full items-center justify-between">
         <h3 className="py-[2.5px] text-body-L font-bold">{task.name}</h3>
-        <Dropdown 
-          icon={<MenuDotsIcon width={24} height={24} />} 
+        <Dropdown
+          icon={<MenuDotsIcon width={24} height={24} />}
           options={[
-            { label: "Edit", icon: <EditIcon/>, onClick: () => console.log("Edit") }, 
-            { label: "Delete", icon: <DeleteIcon/>, onClick: () => console.log("Delete") }
-          ]} 
+            {
+              label: "Edit",
+              icon: <EditIcon />,
+              onClick: () => console.log("Edit"),
+            },
+            {
+              label: "Delete",
+              icon: <DeleteIcon />,
+              onClick: () => console.log("Delete"),
+            },
+          ]}
         />
       </div>
       <div className="flex w-full items-center justify-between">
         <h4 className="text-body-M font-bold">{task.pointEstimate}</h4>
-        <Tags titleTag="Today" icon={<ClockIcon/>} bgColor="bg-color_neutral_2/10" textColor="text-color_neutral_1" />
+        <Tags
+          titleTag="Today"
+          icon={<ClockIcon />}
+          bgColor="bg-color_neutral_2/10"
+          textColor="text-color_neutral_1"
+        />
       </div>
       <div className="flex w-full items-center justify-start gap-2">
-        {task?.tags?.map((tag, index) => (
-            <Tags
-              key={index}
-              titleTag={tag}
-            />
-          ))}
+        {task?.tags?.map((tag, index) => <Tags key={index} titleTag={tag} />)}
       </div>
       <div className="flex w-full items-center justify-between">
         <img
-          src={task.assignee?.avatar || ""}
+          src={
+            task.assignee?.avatar ||
+            "https://eu.ui-avatars.com/api/?name=HenryAgustin&size=250"
+          }
           alt="user avatar"
           className="w-8 rounded-full"
         />

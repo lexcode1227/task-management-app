@@ -32,3 +32,40 @@
 .scroll-hidden::-webkit-scrollbar {
   display: none;
 }
+
+.react-datepicker {
+  @apply bg-white border border-gray-300 rounded-md shadow-md;
+}
+
+.react-datepicker__header {
+  @apply bg-gray-100 border-b border-gray-300;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  @apply text-gray-700;
+}
+
+.react-datepicker__day {
+  @apply text-gray-900 hover:bg-gray-200;
+}
+
+.react-datepicker__day--selected {
+  @apply bg-blue-500 text-white;
+}
+
+.react-datepicker__day--keyboard-selected {
+  @apply bg-blue-300 text-white;
+}
+
+.react-datepicker__day--today {
+  @apply font-bold;
+}
+
+.react-datepicker__calendar-icon {
+  @apply w-6 p-1.5;
+}
+
+.react-datepicker__view-calendar-icon input {
+  @apply pt-1.5 pr-2.5 pb-1.5 pl-9;
+}
