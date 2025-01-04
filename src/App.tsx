@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import { client } from "./apollo";
 import Tasks from "./pages/Tasks";
 import Layout from "./components/layouts/Layout";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
             <Route path="/" element={<Dashboard/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tasks" element={<Tasks />} />
-            <Route path="/task/:id" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Layout>
       </BrowserRouter>

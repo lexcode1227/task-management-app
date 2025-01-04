@@ -160,10 +160,10 @@ export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: { __type
 
 export type NewTaskFragment = { __typename?: 'Task', id: string, name: string, pointEstimate: PointEstimate, status: Status, tags: Array<TaskTag>, dueDate: any, creator: { __typename?: 'User', fullName: string } };
 
-export type ProfileInformationQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetProfileInformationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProfileInformationQuery = { __typename?: 'Query', profile: { __typename?: 'User', id: string, fullName: string, email: string, avatar?: string | null } };
+export type GetProfileInformationQuery = { __typename?: 'Query', profile: { __typename: 'User', id: string, fullName: string, email: string, avatar?: string | null, createdAt: any, updatedAt: any, type: UserType } };
 
 export type GetTasksQueryVariables = Exact<{
   input: FilterTaskInput;
@@ -191,7 +191,7 @@ export const NewTaskFragmentDoc = gql`
 }
     `;
 export const CreateTaskDocument = gql`
-    mutation CreateTask($input: CreateTaskInput!) {
+    mutation createTask($input: CreateTaskInput!) {
   createTask(input: $input) {
     id
     name
@@ -232,7 +232,7 @@ export type CreateTaskMutationHookResult = ReturnType<typeof useCreateTaskMutati
 export type CreateTaskMutationResult = Apollo.MutationResult<CreateTaskMutation>;
 export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutation, CreateTaskMutationVariables>;
 export const DeleteTaskDocument = gql`
-    mutation DeleteTask($input: DeleteTaskInput!) {
+    mutation deleteTask($input: DeleteTaskInput!) {
   deleteTask(input: $input) {
     assignee {
       fullName
@@ -268,48 +268,52 @@ export function useDeleteTaskMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteTaskMutationHookResult = ReturnType<typeof useDeleteTaskMutation>;
 export type DeleteTaskMutationResult = Apollo.MutationResult<DeleteTaskMutation>;
 export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<DeleteTaskMutation, DeleteTaskMutationVariables>;
-export const ProfileInformationDocument = gql`
-    query ProfileInformation {
+export const GetProfileInformationDocument = gql`
+    query getProfileInformation {
   profile {
     id
     fullName
     email
     avatar
+    createdAt
+    updatedAt
+    type
+    __typename
   }
 }
     `;
 
 /**
- * __useProfileInformationQuery__
+ * __useGetProfileInformationQuery__
  *
- * To run a query within a React component, call `useProfileInformationQuery` and pass it any options that fit your needs.
- * When your component renders, `useProfileInformationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetProfileInformationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProfileInformationQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useProfileInformationQuery({
+ * const { data, loading, error } = useGetProfileInformationQuery({
  *   variables: {
  *   },
  * });
  */
-export function useProfileInformationQuery(baseOptions?: Apollo.QueryHookOptions<ProfileInformationQuery, ProfileInformationQueryVariables>) {
+export function useGetProfileInformationQuery(baseOptions?: Apollo.QueryHookOptions<GetProfileInformationQuery, GetProfileInformationQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProfileInformationQuery, ProfileInformationQueryVariables>(ProfileInformationDocument, options);
+        return Apollo.useQuery<GetProfileInformationQuery, GetProfileInformationQueryVariables>(GetProfileInformationDocument, options);
       }
-export function useProfileInformationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileInformationQuery, ProfileInformationQueryVariables>) {
+export function useGetProfileInformationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProfileInformationQuery, GetProfileInformationQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProfileInformationQuery, ProfileInformationQueryVariables>(ProfileInformationDocument, options);
+          return Apollo.useLazyQuery<GetProfileInformationQuery, GetProfileInformationQueryVariables>(GetProfileInformationDocument, options);
         }
-export function useProfileInformationSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ProfileInformationQuery, ProfileInformationQueryVariables>) {
+export function useGetProfileInformationSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetProfileInformationQuery, GetProfileInformationQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ProfileInformationQuery, ProfileInformationQueryVariables>(ProfileInformationDocument, options);
+          return Apollo.useSuspenseQuery<GetProfileInformationQuery, GetProfileInformationQueryVariables>(GetProfileInformationDocument, options);
         }
-export type ProfileInformationQueryHookResult = ReturnType<typeof useProfileInformationQuery>;
-export type ProfileInformationLazyQueryHookResult = ReturnType<typeof useProfileInformationLazyQuery>;
-export type ProfileInformationSuspenseQueryHookResult = ReturnType<typeof useProfileInformationSuspenseQuery>;
-export type ProfileInformationQueryResult = Apollo.QueryResult<ProfileInformationQuery, ProfileInformationQueryVariables>;
+export type GetProfileInformationQueryHookResult = ReturnType<typeof useGetProfileInformationQuery>;
+export type GetProfileInformationLazyQueryHookResult = ReturnType<typeof useGetProfileInformationLazyQuery>;
+export type GetProfileInformationSuspenseQueryHookResult = ReturnType<typeof useGetProfileInformationSuspenseQuery>;
+export type GetProfileInformationQueryResult = Apollo.QueryResult<GetProfileInformationQuery, GetProfileInformationQueryVariables>;
 export const GetTasksDocument = gql`
     query getTasks($input: FilterTaskInput!) {
   tasks(input: $input) {

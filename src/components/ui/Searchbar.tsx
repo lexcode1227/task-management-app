@@ -5,11 +5,11 @@ import ClearIcon from "../../assets/icons/x-icon.svg?react"
 import Dropdown from "./Dropdown";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { useDebounce } from "use-debounce";
+// import { useDebounce } from "use-debounce";
 
 const Searchbar = () => {
     const [search, setSearch] = useState<string>("");
-    const [debouncedSearch] = useDebounce(search, 300);
+    // const [debouncedSearch] = useDebounce(search, 300);
     const navigate = useNavigate();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,9 +31,9 @@ const Searchbar = () => {
           value={search}
           onChange={handleChange}
         />
-        {debouncedSearch && (
+        {search && (
           <ClearIcon
-            width={20}
+            width={24}
             className="absolute right-3 cursor-pointer text-color_neutral_2"
             onClick={clearSearch}
           />

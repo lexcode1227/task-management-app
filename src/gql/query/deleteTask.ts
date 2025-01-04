@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const DELETE_TASK = gql`
-    mutation DeleteTask($input: DeleteTaskInput!) {
+    mutation deleteTask($input: DeleteTaskInput!) {
         deleteTask(input: $input) {
             assignee {
                 fullName
