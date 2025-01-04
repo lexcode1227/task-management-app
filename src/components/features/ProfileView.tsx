@@ -1,10 +1,12 @@
 import { useGetProfileInformationQuery } from "../../gql/graphql";
 import { formatDate } from "../../libs/utils";
+import ProfileSkeleton from "../ui/ProfileSkeleton";
 
 const ProfileView = () => {
-  const { data } = useGetProfileInformationQuery();
+  const { data, loading } = useGetProfileInformationQuery();
   console.log(data);
 
+  if (loading) return <ProfileSkeleton />;
   return (
     <article className="flex h-auto w-full flex-col items-center gap-4 rounded-lg bg-color_neutral_4 p-4 text-white">
       <div className="flex w-full items-center justify-between">
