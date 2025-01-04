@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 const Layout = () => {
   return (
     <main className="flex h-screen w-full gap-8 bg-color_neutral_5 p-8 pb-0">
-      <Toaster richColors closeButton position="bottom-right"/>
+      <Toaster closeButton position="bottom-right" richColors />
       <Sidebar />
       <section className="flex w-[calc(100vw-360px)] flex-col">
         <Searchbar />

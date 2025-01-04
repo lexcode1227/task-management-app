@@ -1,7 +1,7 @@
-import ProfileView from '../components/features/ProfileView'
+import ProfileView from "../components/features/ProfileView";
 
 const Profile = () => {
-  return <ProfileView/>
-}
+  return <ProfileView />;
+};
 
-export default Profile
+export default Profile;

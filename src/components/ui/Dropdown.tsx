@@ -1,5 +1,5 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import React from 'react';
+import React from "react";
 // import { Task } from "../../gql/graphql";
 // type TaskID = Pick<Task, "id">;
 interface DropdownOption {
@@ -20,18 +20,21 @@ const Dropdown = ({ title, icon, options }: DropdownProps) => {
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <button
-            className="inline-flex size-[35px] items-center justify-center rounded-full bg-transparent text-color_neutral_3 outline-0 hover:bg-color_neutral_4 hover:border-none focus:shadow-[0_0_0_2px] focus:shadow-outline-none focus-visible:outline-none focus-visible:ring-0"
             aria-label="Customise options"
+            className="focus:shadow-outline-none inline-flex size-[35px] items-center justify-center rounded-full bg-transparent text-color_neutral_3 outline-0 hover:border-none hover:bg-color_neutral_4 focus:shadow-[0_0_0_2px] focus-visible:outline-none focus-visible:ring-0"
           >
             {icon && <span>{icon}</span>}
             {title}
           </button>
         </DropdownMenu.Trigger>
-        <DropdownMenu.Content align="end" className="min-w-[138px] bg-color_neutral_3 rounded-lg shadow-lg p-2">
+        <DropdownMenu.Content
+          align="end"
+          className="min-w-[138px] rounded-lg bg-color_neutral_3 p-2 shadow-lg"
+        >
           {options.map((option, index) => (
             <DropdownMenu.Item
+              className="flex cursor-pointer items-center gap-2 rounded-md p-2 text-body-M font-bold text-white hover:bg-color_neutral_4 focus:outline-none"
               key={index}
-              className="flex items-center gap-2 p-2 rounded-md cursor-pointer text-white text-body-M font-bold hover:bg-color_neutral_4 focus:outline-none"
               onClick={() => option.onClick()}
             >
               {option.icon && <span>{option.icon}</span>}
@@ -42,6 +45,6 @@ const Dropdown = ({ title, icon, options }: DropdownProps) => {
       </DropdownMenu.Root>
     </div>
   );
-}
+};
 
 export default Dropdown;

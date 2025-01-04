@@ -1,14 +1,14 @@
-import { Datepicker } from 'headless-datetimepicker';
-import { useState } from 'react';
+import { Datepicker } from "headless-datetimepicker";
+import { useState } from "react";
 
 const DatePicker = () => {
-const [value, setValue] = useState<Date | null>(new Date());
+  const [value, setValue] = useState<Date | null>(new Date());
   return (
     <div>
-      <Datepicker value={value} onChange={setValue}>
+      <Datepicker onChange={setValue} value={value}>
         <Datepicker.Picker
-          defaultType="day"
           className="w-[352px] rounded-md bg-white p-4 shadow-md dark:bg-gray-800 dark:text-gray-300"
+          defaultType="day"
         >
           {({ monthName, hour, minute, year }) => (
             <>
@@ -58,8 +58,6 @@ const [value, setValue] = useState<Date | null>(new Date());
                 {({ items }) =>
                   items.map((item) => (
                     <Datepicker.Item
-                      key={item.key}
-                      item={item}
                       action={
                         item.type === "day"
                           ? "close"
@@ -67,6 +65,8 @@ const [value, setValue] = useState<Date | null>(new Date());
                             ? "showDay"
                             : "showMonth"
                       }
+                      item={item}
+                      key={item.key}
                     >
                       {item.isHeader ? item.text.substring(0, 2) : item.text}
                     </Datepicker.Item>
@@ -84,17 +84,17 @@ const [value, setValue] = useState<Date | null>(new Date());
                 id="HourPicker"
               >
                 <Datepicker.Items
-                  type="hour"
                   className="overflow-y-auto scroll-smooth px-4"
                   disableAutoScroll
+                  type="hour"
                 >
                   {({ items }) =>
                     items.map((item) => (
                       <Datepicker.Item
-                        key={item.key}
-                        item={item}
                         action="close"
                         className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium hover:bg-gray-700 hover:text-white"
+                        item={item}
+                        key={item.key}
                       >
                         {("0" + item.text).slice(-2)}
                       </Datepicker.Item>
@@ -102,17 +102,17 @@ const [value, setValue] = useState<Date | null>(new Date());
                   }
                 </Datepicker.Items>
                 <Datepicker.Items
-                  type="minute"
                   className="overflow-y-auto scroll-smooth px-4"
                   disableAutoScroll
+                  type="minute"
                 >
                   {({ items }) =>
                     items.map((item) => (
                       <Datepicker.Item
-                        key={item.key}
-                        item={item}
                         action="close"
                         className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium hover:bg-gray-700 hover:text-white"
+                        item={item}
+                        key={item.key}
                       >
                         {("0" + item.text).slice(-2)}
                       </Datepicker.Item>
@@ -126,6 +126,6 @@ const [value, setValue] = useState<Date | null>(new Date());
       </Datepicker>
     </div>
   );
-}
+};
 
-export default DatePicker
+export default DatePicker;

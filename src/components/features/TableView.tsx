@@ -6,29 +6,39 @@ interface TableViewProps {
   tasks: Task[];
 }
 
-const TableView = ({ statusOptions, tasks} : TableViewProps) => {
+const TableView = ({ statusOptions, tasks }: TableViewProps) => {
   return (
-    <div className="min-w-max flex flex-col gap-8 overflow-y-auto h-[calc(100vh-240px)]">
-      <table className="w-full min-w-[348px] h-auto text-justify border-collapse border-spacing-y-[15px] border-spacing-x-0">
-        <thead className="flex text-body-M text-color_neutral_1 bg-color_neutral_4 h-14 rounded-md">
-            <tr className="flex justify-between items-center w-full">
-                <th className="flex items-center pl-4 w-2/5 font-normal border border-color_neutral_3 h-14 rounded-ss rounded-es"># Task Name</th>
-                <th className="flex items-center pl-4 w-1/5 font-normal border border-color_neutral_3 h-14">Task Tags</th>
-                <th className="flex items-center pl-4 w-1/5 font-normal border border-color_neutral_3 h-14">Estimate</th>
-                <th className="flex items-center pl-4 w-1/5 font-normal border border-color_neutral_3 h-14">Task Assign Name</th>
-                <th className="flex items-center pl-4 w-1/5 font-normal border border-color_neutral_3 h-14 rounded-se rounded-ee">Due Date</th>
-            </tr>
+    <div className="flex h-[calc(100vh-240px)] min-w-max flex-col gap-8 overflow-y-auto">
+      <table className="h-auto w-full min-w-[348px] border-collapse border-spacing-x-0 border-spacing-y-[15px] text-justify">
+        <thead className="flex h-14 rounded-md bg-color_neutral_4 text-body-M text-color_neutral_1">
+          <tr className="flex w-full items-center justify-between">
+            <th className="flex h-14 w-2/5 items-center rounded-es rounded-ss border border-color_neutral_3 pl-4 font-normal">
+              # Task Name
+            </th>
+            <th className="flex h-14 w-1/5 items-center border border-color_neutral_3 pl-4 font-normal">
+              Task Tags
+            </th>
+            <th className="flex h-14 w-1/5 items-center border border-color_neutral_3 pl-4 font-normal">
+              Estimate
+            </th>
+            <th className="flex h-14 w-1/5 items-center border border-color_neutral_3 pl-4 font-normal">
+              Task Assign Name
+            </th>
+            <th className="flex h-14 w-1/5 items-center rounded-ee rounded-se border border-color_neutral_3 pl-4 font-normal">
+              Due Date
+            </th>
+          </tr>
         </thead>
       </table>
       {statusOptions.map((status) => (
         <TaskTable
           key={status}
           status={status}
-          tasks={tasks.filter(task => task.status === status)}
+          tasks={tasks.filter((task) => task.status === status)}
         />
       ))}
-  </div>
-  )
-}
+    </div>
+  );
+};
 
-export default TableView
+export default TableView;

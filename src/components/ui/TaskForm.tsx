@@ -12,60 +12,60 @@ import * as Dialog from "@radix-ui/react-dialog";
 // import { useState } from "react";
 
 const TaskForm = () => {
-    // const [startDate, setStartDate] = useState<Date>(new Date());
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-    } = useForm<CreateTaskInput>({
-      resolver: zodResolver(taskSchema),
-      defaultValues: {
-        status: Status.Backlog,
-      },
-    });
+  // const [startDate, setStartDate] = useState<Date>(new Date());
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<CreateTaskInput>({
+    resolver: zodResolver(taskSchema),
+    defaultValues: {
+      status: Status.Backlog,
+    },
+  });
 
-    const optionsInput = [
-      {
-        title: "Estimate",
-        icon: <EstimateIcon />,
-        options: [
-            { value: "ZERO", label: "0", text: "Points" },
-            { value: "ONE", label: "1", text:  "Points" },
-            { value: "TWO", label: "2", text:  "Points" },
-            { value: "FOUR", label: "4", text: "Points" },
-            { value: "EIGHT", label: "8", text: "Points" },
-        ],
-      },
-      {
-        title: "Assignee",
-        icon: <UserIcon />,
-        options: [
-          { value: "JONH", label: "John", text: "" },
-          { value: "SAM", label: "Sam", text: "" },
-          { value: "STEVEN", label: "Steven", text: "" },
-          { value: "ALEX", label: "Alex", text: "" },
-        ],
-      },
-      {
-        title: "Tags",
-        icon: <TagIcon />,
-        options: [
-            { value: "ANDROID", label: "Android", text: "" },
-            { value: "IOS", label: "IOS", text: "" },
-            { value: "REACT", label: "React", text: "" },
-            { value: "NODE_JS", label: "Node Js", text: "" },
-            { value: "RAILS", label: "Rails", text: "" },
-        ]
-        },
-    ];
+  const optionsInput = [
+    {
+      title: "Estimate",
+      icon: <EstimateIcon />,
+      options: [
+        { value: "ZERO", label: "0", text: "Points" },
+        { value: "ONE", label: "1", text: "Points" },
+        { value: "TWO", label: "2", text: "Points" },
+        { value: "FOUR", label: "4", text: "Points" },
+        { value: "EIGHT", label: "8", text: "Points" },
+      ],
+    },
+    {
+      title: "Assignee",
+      icon: <UserIcon />,
+      options: [
+        { value: "JONH", label: "John", text: "" },
+        { value: "SAM", label: "Sam", text: "" },
+        { value: "STEVEN", label: "Steven", text: "" },
+        { value: "ALEX", label: "Alex", text: "" },
+      ],
+    },
+    {
+      title: "Tags",
+      icon: <TagIcon />,
+      options: [
+        { value: "ANDROID", label: "Android", text: "" },
+        { value: "IOS", label: "IOS", text: "" },
+        { value: "REACT", label: "React", text: "" },
+        { value: "NODE_JS", label: "Node Js", text: "" },
+        { value: "RAILS", label: "Rails", text: "" },
+      ],
+    },
+  ];
 
-    const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
 
-    const onSubmit = (data: CreateTaskInput) => {
-        console.log(data);
-        reset();
-    };
+  const onSubmit = (data: CreateTaskInput) => {
+    console.log(data);
+    reset();
+  };
   return (
     <Form.Root
       className="flex w-full flex-col text-color_neutral_2"
@@ -73,8 +73,8 @@ const TaskForm = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Form.Field
-        key="taskName"
         className="mb-2.5 grid text-color_neutral_2"
+        key="taskName"
         name="taskName"
       >
         <div className="flex items-baseline justify-between">
@@ -88,16 +88,16 @@ const TaskForm = () => {
           <input
             {...register("name")}
             className="inline-flex h-[35px] w-full flex-1 items-center justify-center rounded bg-transparent px-2.5 text-[15px] leading-none text-color_neutral_2 outline-none"
-            type="text"
             placeholder="Task title"
+            type="text"
           />
         </Form.Control>
       </Form.Field>
       <div className="flex w-full gap-2.5">
         {optionsInput.map((option) => (
           <Form.Field
-            key={option.title}
             className="mb-2.5 grid w-[23%] text-color_neutral_2"
+            key={option.title}
             name={option.title.toLowerCase()}
           >
             <div className="flex items-baseline justify-between">
@@ -110,9 +110,9 @@ const TaskForm = () => {
             </div>
             <Form.Control asChild>
               <SelectInput
-                titleSelect={option.title}
                 icon={option.icon}
                 options={option.options}
+                titleSelect={option.title}
               />
             </Form.Control>
           </Form.Field>
@@ -135,8 +135,8 @@ const TaskForm = () => {
                 id="dueDate"
                 type="date"
                 {...register("dueDate", { valueAsDate: true })}
-                required
                 min={today}
+                required
               />
             </div>
           </Form.Control>
@@ -149,16 +149,16 @@ const TaskForm = () => {
         <div className="mt-[25px] flex justify-end gap-6">
           <Dialog.Close asChild>
             <button
-              className="text-violet11 hover:bg-violet4 focus:shadow-violet7 inline-flex w-16 appearance-none items-center justify-center rounded-lg bg-transparent p-2 focus:shadow-[0_0_0_2px] focus:outline-none"
               aria-label="Close"
+              className="text-violet11 hover:bg-violet4 focus:shadow-violet7 inline-flex w-16 appearance-none items-center justify-center rounded-lg bg-transparent p-2 focus:shadow-[0_0_0_2px] focus:outline-none"
             >
               Cancel
             </button>
           </Dialog.Close>
           <Dialog.Close asChild>
             <button
-              type="submit"
               className="hover:bg-green5 focus:shadow-green7 inline-flex w-16 items-center justify-center rounded-lg bg-color_primary_2 p-2 text-body-M font-normal leading-none text-color_neutral_1 focus:shadow-[0_0_0_2px] focus:outline-none"
+              type="submit"
             >
               Create
             </button>
@@ -167,6 +167,6 @@ const TaskForm = () => {
       </Form.Submit>
     </Form.Root>
   );
-}
+};
 
-export default TaskForm
+export default TaskForm;

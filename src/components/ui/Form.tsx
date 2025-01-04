@@ -1,90 +1,99 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { taskSchema } from "../../validations/taskSchema";
-import { CreateTaskInput, PointEstimate, Status, TaskTag, useCreateTaskMutation, useGetUsersQuery } from "../../gql/graphql";
+import {
+  CreateTaskInput,
+  PointEstimate,
+  Status,
+  TaskTag,
+  useCreateTaskMutation,
+  useGetUsersQuery,
+} from "../../gql/graphql";
 import { toast } from "sonner";
 import * as Dialog from "@radix-ui/react-dialog";
 import { CREATE_TASK_FRAGMENT } from "../../gql/query/fragments";
 
 interface FormProps {
-    handleClose: () => void;
+  handleClose: () => void;
 }
 
 const Form = ({ handleClose }: FormProps) => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateTaskInput>({
-        resolver: zodResolver(taskSchema),
-        defaultValues: {
-            status: Status.Backlog,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<CreateTaskInput>({
+    resolver: zodResolver(taskSchema),
+    defaultValues: {
+      status: Status.Backlog,
+    },
+  });
+  const { data: usersData, loading: usersLoading } = useGetUsersQuery();
+
+  const [createTaskMutation, { loading, error }] = useCreateTaskMutation({
+    update(cache, { data }) {
+      if (!data?.createTask) return;
+      cache.modify({
+        fields: {
+          tasks(existingTasks = []) {
+            const newTaskRef = cache.writeFragment({
+              data: data.createTask,
+              fragment: CREATE_TASK_FRAGMENT,
+            });
+
+            return [...existingTasks, newTaskRef];
+          },
         },
-    });
-    const { data: usersData, loading: usersLoading,  } = useGetUsersQuery();
+      });
+    },
+  });
 
-    const [createTaskMutation, { loading, error }] = useCreateTaskMutation({
-      update(cache, { data }) {
-        if (!data?.createTask) return;
-        cache.modify({
-          fields: {
-            tasks(existingTasks = []) {
+  const estimateOptions = Object.entries(PointEstimate).map(([key, value]) => (
+    <option
+      className="flex h-[25px] select-none items-center gap-2 rounded-[3px] bg-color_neutral_3 px-[25px] text-[13px] leading-none text-color_neutral_1 hover:bg-color_neutral_4"
+      key={key}
+      value={value}
+    >
+      {value}
+    </option>
+  ));
+  const tagsOptions = Object.entries(TaskTag).map(([key, value]) => (
+    <option
+      className="flex h-[25px] select-none items-center gap-2 rounded-[3px] bg-color_neutral_3 px-[25px] text-[13px] leading-none text-color_neutral_1 hover:bg-color_neutral_4"
+      key={key}
+      value={value}
+    >
+      {value}
+    </option>
+  ));
 
-              const newTaskRef = cache.writeFragment({
-                data: data.createTask,
-                fragment: CREATE_TASK_FRAGMENT,
-              });
+  const assigneeOptions = usersData?.users?.map((user) => (
+    <option
+      className="flex h-[25px] select-none items-center gap-2 rounded-[3px] bg-color_neutral_3 px-[25px] text-[13px] leading-none text-color_neutral_1 hover:bg-color_neutral_4"
+      key={user.id}
+      value={user.id}
+    >
+      {user.fullName}
+    </option>
+  ));
 
-              return [...existingTasks, newTaskRef];
-            },
-          },
-        });
-      },
-    });
+  const today = new Date().toISOString().split("T")[0];
 
-    const estimateOptions = Object.entries(PointEstimate).map(
-      ([key, value]) => (
-        <option
-          key={key}
-          value={value}
-          className="flex h-[25px] select-none items-center gap-2 rounded-[3px] px-[25px] text-[13px] leading-none text-color_neutral_1 bg-color_neutral_3 hover:bg-color_neutral_4"
-        >
-          {value}
-        </option>
-      ),
-    );
-    const tagsOptions = Object.entries(TaskTag).map(([key, value]) => (
-      <option
-        key={key}
-        value={value}
-        className="flex h-[25px] select-none items-center gap-2 rounded-[3px] px-[25px] text-[13px] leading-none text-color_neutral_1 bg-color_neutral_3 hover:bg-color_neutral_4"
-      >
-        {value}
-      </option>
-    ));
-
-    const assigneeOptions = usersData?.users?.map((user) => (
-      <option
-        key={user.id}
-        value={user.id}
-        className="flex h-[25px] select-none items-center gap-2 rounded-[3px] px-[25px] text-[13px] leading-none text-color_neutral_1 bg-color_neutral_3 hover:bg-color_neutral_4"
-      >
-        {user.fullName}
-      </option>
-    ));
-
-    const today = new Date().toISOString().split("T")[0];
-
-    const onSubmit: SubmitHandler<CreateTaskInput> = async (data) => {
-      try {
-        await createTaskMutation({
-          variables: {
-            input: data,
-          },
-        });
-        toast.success(`${data.name} created successfully`);
-        reset();
-        handleClose();
-      } catch (err) {
-        toast.error(`Error creating task ${data.name} ${error?.message}`);
-      }
-    };
+  const onSubmit: SubmitHandler<CreateTaskInput> = async (data) => {
+    try {
+      await createTaskMutation({
+        variables: {
+          input: data,
+        },
+      });
+      toast.success(`${data.name} created successfully`);
+      reset();
+      handleClose();
+    } catch (err) {
+      toast.error(`Error creating task ${data.name} ${error?.message}`);
+    }
+  };
 
   return (
     <form
@@ -147,8 +156,8 @@ const Form = ({ handleClose }: FormProps) => {
             id="dueDate"
             type="date"
             {...register("dueDate", { valueAsDate: true })}
-            required
             min={today}
+            required
           />
           {errors.dueDate && <span>date errors</span>}
         </div>
@@ -156,17 +165,17 @@ const Form = ({ handleClose }: FormProps) => {
       <div className="mt-[25px] flex items-center justify-end gap-6">
         <Dialog.Close asChild>
           <button
-            className="text-violet11 hover:bg-violet4 focus:shadow-violet7 inline-flex w-16 appearance-none items-center justify-center rounded-lg bg-transparent p-2 focus:shadow-[0_0_0_2px] focus:outline-none"
             aria-label="Close"
+            className="text-violet11 hover:bg-violet4 focus:shadow-violet7 inline-flex w-16 appearance-none items-center justify-center rounded-lg bg-transparent p-2 focus:shadow-[0_0_0_2px] focus:outline-none"
           >
             Cancel
           </button>
         </Dialog.Close>
         <div>
           <button
-            type="submit"
-            disabled={loading || usersLoading}
             className="hover:bg-green5 focus:shadow-green7 inline-flex w-16 items-center justify-center rounded-lg bg-color_primary_2 p-2 text-body-M font-normal leading-none text-color_neutral_1 focus:shadow-[0_0_0_2px] focus:outline-none"
+            disabled={loading || usersLoading}
+            type="submit"
           >
             Create
           </button>

@@ -1,7 +1,7 @@
 import MyTasksView from "../components/features/MyTasksView";
 
 const Tasks = () => {
-  return <MyTasksView/>
-}
+  return <MyTasksView />;
+};
 
-export default Tasks
+export default Tasks;

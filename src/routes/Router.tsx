@@ -5,17 +5,17 @@ import Profile from "../pages/Profile";
 import Dashboard from "../pages/Dashboard";
 
 const Router = () => {
-    return (
+  return (
     <BrowserRouter>
-        <Routes>
-            <Route element={<Layout />}>
-                <Route element={<Dashboard />} index />
-                <Route path="/tasks" element={<Tasks />} />
-                <Route path="/profile" element={<Profile />} />
-            </Route>
-        </Routes>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route element={<Dashboard />} index />
+          <Route element={<Tasks />} path="/tasks" />
+          <Route element={<Profile />} path="/profile" />
+        </Route>
+      </Routes>
     </BrowserRouter>
-    )
-}
+  );
+};
 
 export default Router;

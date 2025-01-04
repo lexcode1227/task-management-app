@@ -4,7 +4,8 @@ const PointEstimateEnum = z.enum(["EIGHT", "FOUR", "ONE", "TWO", "ZERO"], {
   errorMap: () => ({ message: "The field is required" }),
 });
 const StatusEnum = z.enum(
-  ["BACKLOG", "CANCELLED", "DONE", "IN_PROGRESS", "TODO"], {
+  ["BACKLOG", "CANCELLED", "DONE", "IN_PROGRESS", "TODO"],
+  {
     errorMap: () => ({ message: "This field is required" }),
   },
 );

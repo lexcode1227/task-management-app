@@ -1,7 +1,7 @@
 import DashboardView from "../components/features/DashboardView";
 
 const Dashboard = () => {
-  return <DashboardView/>
+  return <DashboardView />;
 };
 
 export default Dashboard;

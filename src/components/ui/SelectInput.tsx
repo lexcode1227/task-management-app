@@ -2,20 +2,16 @@ import * as Select from "@radix-ui/react-select";
 import ChevronDownIcon from "../../assets/icons/chevron-down.svg?react";
 
 interface SelectInputProps {
-    options: { value: string; label: string, text: string }[];
-    titleSelect: string;
-    icon?: React.ReactNode;
+  options: { value: string; label: string; text: string }[];
+  titleSelect: string;
+  icon?: React.ReactNode;
 }
 
-const SelectInput = ({
-  titleSelect,
-  icon,
-  options,
-}: SelectInputProps) => (
+const SelectInput = ({ titleSelect, icon, options }: SelectInputProps) => (
   <Select.Root>
     <Select.Trigger
-      className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded bg-color_neutral_2/10 text-[13px] leading-none shadow-[0_2px_10px] shadow-black/10 outline-none focus:shadow-none"
       aria-label={titleSelect}
+      className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded bg-color_neutral_2/10 text-[13px] leading-none shadow-[0_2px_10px] shadow-black/10 outline-none focus:shadow-none"
     >
       <Select.Icon className="text-color_neutral_1">
         {icon && <span>{icon}</span>}
@@ -25,8 +21,8 @@ const SelectInput = ({
     <Select.Portal>
       <Select.Content
         align="end"
-        position="popper"
         className="mt-2 overflow-hidden rounded-lg border border-color_neutral_2 bg-color_neutral_3 py-2 shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
+        position="popper"
       >
         <Select.ScrollUpButton className="flex h-[25px] cursor-default items-center justify-center rounded bg-color_neutral_2/10 text-color_neutral_1">
           <ChevronDownIcon />
@@ -38,9 +34,9 @@ const SelectInput = ({
             </Select.Label>
             {options.map((option) => (
               <Select.Item
+                className="flex h-[25px] select-none items-center gap-2 rounded-[3px] px-[25px] text-[13px] leading-none text-color_neutral_1 hover:bg-color_neutral_3"
                 key={option.value}
                 value={option.value}
-                className="flex h-[25px] select-none items-center gap-2 rounded-[3px] px-[25px] text-[13px] leading-none text-color_neutral_1 hover:bg-color_neutral_3"
               >
                 {icon && <span>{icon}</span>}
                 <Select.ItemText>
@@ -59,4 +55,3 @@ const SelectInput = ({
 );
 
 export default SelectInput;
-

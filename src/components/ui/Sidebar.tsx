@@ -24,11 +24,11 @@ const Sidebar = () => {
   ];
   return (
     <aside className="mb-8 flex w-full max-w-[232px] flex-col items-center rounded-3xl bg-color_neutral_4 pt-3">
-      <img src={logoRavn} alt="logo Ravn" className="mb-11 size-12" />
+      <img alt="logo Ravn" className="mb-11 size-12" src={logoRavn} />
       <nav className="w-full font-bold text-color_neutral_2">
         <ul className="flex w-full flex-col gap-2 text-[15px]">
           {navLinks.map((navLinkItem, index) => (
-            <li key={index} className="w-full pl-4">
+            <li className="w-full pl-4" key={index}>
               <NavLink
                 className={({ isActive }) =>
                   isActive
