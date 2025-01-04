@@ -1,6 +1,6 @@
 import { useGetProfileInformationQuery } from "../../gql/graphql";
 import { formatDate } from "../../libs/utils";
-import ProfileSkeleton from "../ui/ProfileSkeleton";
+import ProfileSkeleton from "../ui/loadingSkeletons/ProfileSkeleton";
 
 const ProfileView = () => {
   const { data, loading } = useGetProfileInformationQuery();

@@ -1,7 +1,7 @@
 import { useGetTasksQuery } from "../../gql/graphql";
 import { useAppStore } from "../../store/store";
 import ErrorLayout from "../errors/Error";
-import TaskColumnSkeleton from "../ui/TaskColumnSkeleton";
+import TaskColumnSkeleton from "../ui/loadingSkeletons/TaskColumnSkeleton";
 import GridView from "./GridView";
 import TableView from "./TableView";
 

@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@radix-ui/react-accordion";
-import TaskColumnSkeleton from "./TaskColumnSkeleton";
+import TaskColumnSkeleton from "./loadingSkeletons/TaskColumnSkeleton";
 import ChevronDownIcon from "../../assets/icons/chevron-down.svg?react";
 import { formatDate, formatEstimatePoint } from "../../libs/utils";
 // import Tags from "./Tags";

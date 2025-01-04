@@ -10,6 +10,7 @@ import Dropdown from "./Dropdown";
 import { Task, useDeleteTaskMutation } from "../../gql/graphql";
 import ErrorLayout from "../errors/Error";
 import { toast } from "sonner";
+import LoadingSpinner from "./loadingSkeletons/LoadingSpinner";
 
 const Card = ({ task }: { task: Task }) => {
   const [deleteTaskMutation, { loading, error }] = useDeleteTaskMutation({
@@ -30,7 +31,7 @@ const Card = ({ task }: { task: Task }) => {
 
   const handleDelete = async () => {
     try {
-      confirm(`Deleting task with id: ${task.id}`) == true &&
+      if (confirm(`Deleting task with id: ${task.id}`) == true) {
         (await deleteTaskMutation({
           variables: {
             input: {
@@ -39,6 +40,7 @@ const Card = ({ task }: { task: Task }) => {
           },
         }));
       toast.success(`Task with ID:${task.id} deleted successfully`);
+      }
     } catch (err) {
       toast.error(
         `Error deleting task with ID: ${task.id} due to: ${error?.message}`,
@@ -46,7 +48,7 @@ const Card = ({ task }: { task: Task }) => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <LoadingSpinner />; 
   if (error) return <ErrorLayout message={error.message} />;
 
   return (
