@@ -9,8 +9,8 @@ const TagsVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-color_neutral_2/10 text-color_neutral_2",
+        DEFAULT:
+          "bg-color_neutral_2/10 text-color_neutral_1",
         RAILS:
           "bg-color_primary_4/10 text-color_primary_4",
         NODE_JS:
@@ -24,7 +24,7 @@ const TagsVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "DEFAULT",
     },
   }
 )

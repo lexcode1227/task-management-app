@@ -12,6 +12,7 @@ import ErrorLayout from "../errors/Error";
 import { toast } from "sonner";
 import LoadingSpinner from "./loadingSkeletons/LoadingSpinner";
 import { useAppStore } from "../../store/store";
+import {  formatDueDate, formatEstimatePoint, getRandomNum, getTodayDate } from "../../libs/utils";
 
 const Card = ({ task }: { task: Task }) => {
   const setIsEditingMode = useAppStore((state) => state.setIsEditingMode);
@@ -80,16 +81,15 @@ const Card = ({ task }: { task: Task }) => {
         />
       </div>
       <div className="flex w-full items-center justify-between">
-        <h4 className="text-body-M font-bold">{task.pointEstimate}</h4>
-        <Tags
-          bgColor="bg-color_neutral_2/10"
-          icon={<ClockIcon />}
-          textColor="text-color_neutral_1"
-          titleTag="Today"
-        />
+        <h4 className="text-body-M font-bold">
+          {formatEstimatePoint(task.pointEstimate)} Points
+        </h4>
+        <Tags icon={<ClockIcon />} titleTag={(formatDueDate(task.dueDate))} variant={(getTodayDate() > task.dueDate || formatDueDate(task.dueDate) === "YESTERDAY") ? "RAILS" : undefined} />
       </div>
       <div className="flex w-full items-center justify-start gap-2">
-        {task?.tags?.map((tag, index) => <Tags key={index} titleTag={tag} />)}
+        {task?.tags?.map((tag) => (
+          <Tags key={tag} titleTag={tag} variant={tag} />
+        ))}
       </div>
       <div className="flex w-full items-center justify-between">
         <img
@@ -103,11 +103,11 @@ const Card = ({ task }: { task: Task }) => {
         <div className="flex items-center justify-between gap-4">
           <FileIcon height={24} width={24} />
           <div className="flex items-center justify-between gap-1">
-            <span>5</span>
+            <span>{getRandomNum()}</span>
             <SchemaIcon height={24} width={24} />
           </div>
           <div className="flex items-center justify-between gap-1">
-            <span>3</span>
+            <span>{getRandomNum()}</span>
             <MessageIcon height={24} width={24} />
           </div>
         </div>

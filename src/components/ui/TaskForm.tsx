@@ -89,15 +89,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
           key: user.fullName,
           value: user.id,
         })),
-    },
-    // {
-    //     title: "Tags",
-    //     icon: <TagIcon />,
-    //     options: Object.entries(TaskTag).map(([key, value]) => ({
-    //         key: key,
-    //         value: value,
-    //       })),
-    // },
+    }
     ];
     const tagsOptions = Object.entries(TaskTag).map(([key, value]) => ({
         key: key,

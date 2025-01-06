@@ -1,13 +1,14 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { PointEstimate } from "../gql/graphql";
+import { isYesterday } from "date-fns";
 
 interface Option {
   key: string;
   value: string;
 }
 
-export const formatDate = (date: string) => {
+export const formatDate = (date: Date): string => {
   const newDate = new Date(date);
   return newDate.toLocaleDateString("en-US", {
     month: "short",
@@ -57,22 +58,22 @@ export const formatSelectedValues = (
   return visibleItems.join(", ");
 };
 
-export const formatTagBgColor = (tag: string) => {
-  switch (tag) {
-    case "ANDROID":
-      return "bg-color_primary_4/10";
-    case "IOS":
-      return "bg-color_secondary_4/10";
-    case "NODE_JS":
-      return "bg-color_tertiary_4/10";
-    case "RAILS":
-      return "bg-color_error_4/10";
-    case "REACT":
-      return "bg-color_blue_1";
-    default:
-      return "bg-color_neutral_4/10";
-  }
+export const getRandomNum = () => {
+  return Math.floor(Math.random() * 10);
 };
+
+export const getTodayDate = () => {
+  return new Date().toISOString().split("T")[0];
+};
+
+
+export const formatDueDate = (dueDate: Date) => {
+    if (isYesterday(dueDate)) {
+      return "YESTERDAY";
+    } else {
+      return formatDate(dueDate);
+    }
+  };
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
