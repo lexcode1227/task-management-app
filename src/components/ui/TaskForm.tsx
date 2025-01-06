@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { taskSchema } from "../../validations/taskSchema";
-import { CreateTaskInput, PointEstimate, Status, TaskTag, useCreateTaskMutation, useGetUsersQuery } from "../../gql/graphql";
+import { CreateTaskInput, PointEstimate, Status, Task, TaskTag, useCreateTaskMutation, useGetUsersQuery, useUpdateTaskMutation } from "../../gql/graphql";
 import * as Form from "@radix-ui/react-form";
 import SelectInput from "./SelectInput";
 import UserIcon from "../../assets/icons/user-icon.svg?react";
@@ -13,19 +13,27 @@ import ReactDatePicker from "./ReactDatePicker";
 import MultiSelect from "./MultiSelect";
 
 interface FormProps {
-    handleClose: () => void;
+  task?: Task
+  handleClose: () => void;
 }
 
-const FormTest = ({ handleClose }: FormProps) => {
+const TaskForm = ({ task, handleClose }: FormProps) => {
+    const isEditMode = !!task;
     const { control, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<CreateTaskInput>({
         resolver: zodResolver(taskSchema),
         defaultValues: {
-          status: Status.Backlog,
+          name: task?.name || '',
+          pointEstimate: task?.pointEstimate || undefined,
+          assigneeId: task?.assignee?.id || undefined,
+          dueDate: task ? new Date(task.dueDate) : null,
+          tags: task?.tags || [],
+          status: task?.status || Status.Backlog,
         },
       });
+    
     const selectedTags = watch('tags', []);
-    const { data: usersData, loading: usersLoading } = useGetUsersQuery();
-    const [createTaskMutation, { loading: mutationLoading, error: mutationError }] = useCreateTaskMutation({
+    const { data: usersData } = useGetUsersQuery();
+    const [createTaskMutation, { loading: createTaskLoading, error: createTaskError }] = useCreateTaskMutation({
       update(cache, { data }) {
         if (!data?.createTask) return;
         cache.modify({
@@ -37,6 +45,24 @@ const FormTest = ({ handleClose }: FormProps) => {
               });
   
               return [...existingTasks, newTaskRef];
+            },
+          },
+        });
+      },
+    });
+    const [updateTaskMutation, { loading: updateTaskLoading, error: updateTaskError }] = useUpdateTaskMutation({
+      update(cache, { data }) {
+        if (!data?.updateTask) return;
+  
+        cache.modify({
+          fields: {
+            tasks(existingTasks = [], { readField }) {
+              return existingTasks.map((taskRef: any) => {
+                if (readField("id", taskRef) === data.updateTask.id) {
+                  return { ...taskRef, ...data.updateTask };
+                }
+                return taskRef;
+              });
             },
           },
         });
@@ -80,16 +106,28 @@ const FormTest = ({ handleClose }: FormProps) => {
 
     const onSubmit: SubmitHandler<CreateTaskInput> = async (data) => {
       try {
-        await createTaskMutation({
-          variables: {
-            input: data,
-          },
-        });
-        toast.success(`${data.name} created successfully`);
+        if (isEditMode) {
+          await updateTaskMutation({
+            variables: {
+              input: {
+                id: task.id,
+                ...data,
+              },
+            },
+          });
+          toast.success(`Task with ID:${task.id} edited successfully`);
+        } else {
+          await createTaskMutation({
+            variables: {
+              input: data,
+            },
+          });
+          toast.success('Task created successfully');
+        }
         reset();
         handleClose();
       } catch (err) {
-        toast.error(`Error creating task ${data.name} ${mutationError?.message}`);
+        toast.error(`Failed to ${isEditMode ? 'edit' : 'create'} task: ${createTaskError} ${updateTaskError}`);
       }
     };
       return (
@@ -223,12 +261,14 @@ const FormTest = ({ handleClose }: FormProps) => {
                 <button
                   className="text-color_neutral_1 inline-flex w-16 appearance-none items-center justify-center rounded-lg bg-transparent p-2 focus:shadow-[0_0_0_2px] focus:outline-none"
                   aria-label="Close"
+                  onClick={handleClose}
                 >
                   Cancel
                 </button>
               </Dialog.Close>
-                <button type="submit" disabled={mutationLoading || usersLoading} className="inline-flex min-w-16 w-auto items-center justify-center rounded-lg bg-color_primary_4 p-2 text-body-M font-normal leading-none text-color_neutral_1 focus:shadow-[0_0_0_2px] focus:outline-none">
-                    { mutationLoading ? "Creating..." : "Create"}
+                <button type="submit" disabled={createTaskLoading || updateTaskLoading} className="inline-flex min-w-16 w-auto items-center justify-center rounded-lg bg-color_primary_4 p-2 text-body-M font-normal leading-none text-color_neutral_1 focus:shadow-[0_0_0_2px] focus:outline-none">
+                    { !isEditMode ? (createTaskLoading ? "Creating..." : "Create") : ""}
+                    { isEditMode ? (updateTaskLoading ? "Saving..." : "Save") : ""}
                 </button>
             </div>
           </Form.Submit>
@@ -236,4 +276,4 @@ const FormTest = ({ handleClose }: FormProps) => {
       );
 };
 
-export default FormTest
+export default TaskForm;

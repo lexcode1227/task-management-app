@@ -11,8 +11,11 @@ import { Task, useDeleteTaskMutation } from "../../gql/graphql";
 import ErrorLayout from "../errors/Error";
 import { toast } from "sonner";
 import LoadingSpinner from "./loadingSkeletons/LoadingSpinner";
+import { useAppStore } from "../../store/store";
 
 const Card = ({ task }: { task: Task }) => {
+  const setIsEditingMode = useAppStore((state) => state.setIsEditingMode);
+  const setTaskToEdit = useAppStore((state) => state.setTaskToEdit);
   const [deleteTaskMutation, { loading, error }] = useDeleteTaskMutation({
     update(cache, { data }) {
       if (!data?.deleteTask) return;
@@ -48,6 +51,11 @@ const Card = ({ task }: { task: Task }) => {
     }
   };
 
+  const handleEdit = () => {
+    setIsEditingMode(true);
+    setTaskToEdit(task);
+  };
+
   if (loading) return <LoadingSpinner />; 
   if (error) return <ErrorLayout message={error.message} />;
 
@@ -61,7 +69,7 @@ const Card = ({ task }: { task: Task }) => {
             {
               label: "Edit",
               icon: <EditIcon />,
-              onClick: () => console.log("Edit"),
+              onClick: () => handleEdit(),
             },
             {
               label: "Delete",
