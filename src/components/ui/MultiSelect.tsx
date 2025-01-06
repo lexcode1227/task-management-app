@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import TagIcon from "../../assets/icons/tag-icon.svg?react";
 import { formatSelectedValues } from "../../libs/utils";
 
@@ -13,7 +13,8 @@ interface Option {
     onChange: (selectedValues: string[]) => void;
   }
 
-const MultiSelect = ({ options, selectedValues, onChange }: MultiSelectProps) => {
+const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props, ref) => {
+    const { options, selectedValues, onChange } = props;
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const handleCheckboxChange = (value: string) => {
@@ -31,6 +32,7 @@ const MultiSelect = ({ options, selectedValues, onChange }: MultiSelectProps) =>
     return (
     <div className="relative inline-block w-full">
         <button
+          ref={ref}
           className="flex items-center justify-center gap-2 w-full h-[35px] rounded bg-color_neutral_2/10 px-2 text-color_neutral_1 font-bold outline-none cursor-pointer" type="button"
           onClick={handleSelectClick}
         >
@@ -73,6 +75,6 @@ const MultiSelect = ({ options, selectedValues, onChange }: MultiSelectProps) =>
         )}
     </div>
     );
-}
+});
 
 export default MultiSelect

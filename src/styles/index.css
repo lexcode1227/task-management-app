@@ -114,3 +114,10 @@ body .react-datepicker__aria-live {
   width: 1px;
   white-space: nowrap;
 }
+
+.AccordionChevron {
+  transition: transform 300ms;
+}
+.AccordionTrigger[data-state="open"] > .AccordionChevron {
+  transform: rotate(180deg);
+}

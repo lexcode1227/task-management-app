@@ -3,6 +3,7 @@ import { NavLink } from "react-router";
 import DashboardIcon from "../../assets/icons/menu-square.svg?react";
 import TasksIcon from "../../assets/icons/menu-hamburguer.svg?react";
 import UserIcon from "../../assets/icons/user-icon.svg?react";
+import { cn } from "../../libs/utils";
 
 const Sidebar = () => {
   const navLinks = [
@@ -31,9 +32,10 @@ const Sidebar = () => {
             <li className="w-full pl-4" key={index}>
               <NavLink
                 className={({ isActive }) =>
-                  isActive
-                    ? "relative flex h-14 items-center gap-4 border-r-4 border-r-color_primary_4 text-color_primary_4"
-                    : "relative flex h-14 items-center gap-4 text-color_neutral_2"
+                  cn("relative flex h-14 items-center gap-4", {
+                    "border-r-4 border-r-color_primary_4 text-color_primary_4": isActive,
+                    "text-color_neutral_2": !isActive,
+                  })
                 }
                 to={navLinkItem.url}
               >

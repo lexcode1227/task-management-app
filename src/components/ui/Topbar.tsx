@@ -2,6 +2,7 @@ import DashboardIcon from "../../assets/icons/menu-square.svg?react";
 import TasksIcon from "../../assets/icons/menu-hamburguer.svg?react";
 import DialogModal from "./DialogModal";
 import { useAppStore } from "../../store/store";
+import { cn } from "../../libs/utils";
 
 const Topbar = () => {
   const viewMode = useAppStore((state) => state.viewMode);
@@ -11,13 +12,21 @@ const Topbar = () => {
     <div className="mt-9 flex items-center justify-between">
       <div className="flex gap-2">
         <button
-          className={`p-2 ${viewMode === "table" ? "rounded-lg border border-color_primary_4 text-color_primary_4" : "bg-transparent text-color_neutral_1"}`}
+          className={cn("p-2", {
+            "rounded-lg border border-color_primary_4 text-color_primary_4":
+              viewMode === "table",
+            "bg-transparent text-color_neutral_1": viewMode !== "table",
+          })}
           onClick={() => setViewMode("table")}
         >
           <TasksIcon height={24} width={24} />
         </button>
         <button
-          className={`p-2 ${viewMode === "grid" ? "rounded-lg border border-color_primary_4 text-color_primary_4" : "bg-transparent text-color_neutral_1"}`}
+          className={cn("p-2", {
+            "rounded-lg border border-color_primary_4 text-color_primary_4":
+              viewMode === "grid",
+            "bg-transparent text-color_neutral_1": viewMode !== "grid",
+          })}
           onClick={() => setViewMode("grid")}
         >
           <DashboardIcon height={24} width={24} />
