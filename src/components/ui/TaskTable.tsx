@@ -7,7 +7,7 @@ import {
 } from "@radix-ui/react-accordion";
 import TaskColumnSkeleton from "./loadingSkeletons/TaskColumnSkeleton";
 import ChevronDownIcon from "../../assets/icons/chevron-down.svg?react";
-import { cn, formatDate, formatEstimatePoint, formatStatus } from "../../libs/utils";
+import { cn, formatDueDate, formatEstimatePoint, formatStatus, getTodayDate } from "../../libs/utils";
 import Tags from "./Tags";
 
 interface TaskTableProps {
@@ -20,7 +20,7 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
   return (
     <Accordion className="w-full min-w-[348px]" collapsible type="single">
       <AccordionItem className="accordion-item" value="item-1">
-        <AccordionTrigger className="AccordionTrigger flex h-14 w-full items-center justify-start gap-2 pl-2 rounded-t border border-color_neutral_3 bg-color_neutral_4 text-body-L font-bold text-color_neutral_1">
+        <AccordionTrigger className="AccordionTrigger flex h-14 w-full items-center justify-start gap-2 rounded-t border border-color_neutral_3 bg-color_neutral_4 pl-2 text-body-L font-bold text-color_neutral_1">
           <ChevronDownIcon
             className={
               "AccordionChevron text-color_neutral_2 transition-transform"
@@ -38,7 +38,7 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
                   className="flex h-14 w-full items-center justify-between text-body-M text-color_neutral_1"
                   key={task.id}
                 >
-                  <td className="relative flex h-14 w-2/5 items-center border border-color_neutral_3 pl-4">
+                  <td className="relative flex h-14 w-2/5 min-w-80 items-center border border-color_neutral_3 pl-4">
                     <span
                       className={cn("absolute left-0 h-[80%] w-1", {
                         "bg-color_neutral_1": task.status === Status.Backlog,
@@ -54,7 +54,7 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
                       <h2>{task.name}</h2>
                     </div>
                   </td>
-                  <td className="flex h-14 w-1/5 flex-wrap items-center justify-start gap-2 border border-color_neutral_3 pl-2">
+                  <td className="flex h-14 w-1/5 min-w-44 flex-wrap items-center justify-start gap-2 border border-color_neutral_3 pl-2">
                     {task.tags.length > 1 ? (
                       <>
                         <Tags
@@ -71,25 +71,36 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
                       <Tags titleTag={task.tags[0]} variant={task.tags[0]} />
                     )}
                   </td>
-                  <td className="flex h-14 w-1/5 items-center border border-color_neutral_3 pl-4">
+                  <td className="flex h-14 w-1/5 min-w-44 items-center border border-color_neutral_3 pl-4">
                     {formatEstimatePoint(task.pointEstimate)} Points
                   </td>
-                  <td className="flex h-14 w-1/5 items-center truncate border border-color_neutral_3 pl-4">
-                    {task.assignee?.avatar ? (
-                      <div className="flex items-center gap-2">
-                        <img
-                          alt="avatar"
-                          className="h-8 w-8 rounded-full"
-                          src={task.assignee.avatar}
-                        />
-                        {task.assignee?.fullName}
-                      </div>
-                    ) : (
-                      "Unassigned"
-                    )}
+                  <td className="flex h-14 w-1/5 min-w-44 items-center truncate border border-color_neutral_3 pl-4">
+                    <div className="flex items-center gap-2">
+                      <img
+                        alt="avatar"
+                        className="h-8 w-8 rounded-full"
+                        src={
+                          task.assignee?.avatar ||
+                          "https://eu.ui-avatars.com/api/?name=HenryAgustin&size=250"
+                        }
+                      />
+                      {task.assignee?.fullName}
+                    </div>
                   </td>
-                  <td className="flex h-14 w-1/5 items-center border border-color_neutral_3 pl-4">
-                    {formatDate(task.dueDate)}
+                  <td
+                    className={cn(
+                      "flex h-14 w-1/5 min-w-44 items-center border border-color_neutral_3 pl-4",
+                      {
+                        "text-color_primary_3":
+                          getTodayDate() > task.dueDate ||
+                          formatDueDate(task.dueDate) === "YESTERDAY",
+                        "text-color_neutral_1":
+                          task.dueDate === new Date().getTime() ||
+                          task.dueDate === new Date().getTime() + 86400000,
+                      },
+                    )}
+                  >
+                    {formatDueDate(task.dueDate)}
                   </td>
                 </tr>
               ))}

@@ -11,7 +11,7 @@ const MyTasksView = () => {
   const { loading, error, data } = useGetTasksQuery({
     variables: {
       input: {
-        assigneeId: "703de395-1d49-4471-aafa-d990dcf32cd1",
+        assigneeId: "b1875381-1ae2-4a11-a3eb-2493dba0eb13",
       },
     },
   });

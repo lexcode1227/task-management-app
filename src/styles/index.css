@@ -33,6 +33,10 @@
   display: none;
 }
 
+body {
+  scroll-behavior: none
+}
+
 body .react-datepicker {
   @apply bg-color_neutral_5 text-color_neutral_1;
 }
