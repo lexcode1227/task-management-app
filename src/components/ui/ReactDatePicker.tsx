@@ -1,7 +1,7 @@
 import DatePicker from "react-datepicker";
-import CalendarIcon from "../../assets/icons/calendar-icon.svg?react";
 import "react-datepicker/dist/react-datepicker.css";
-// import "../../styles/datePicker.css"
+import "../../styles/index.css"
+import CustomInput from "./CustomInput";
 
 interface ReactDatePickerProps {
   startDate: Date;
@@ -13,15 +13,12 @@ const ReactDatePicker = ({ startDate, handleChange }: ReactDatePickerProps) => {
 
   return (
     <DatePicker
-      calendarClassName="react-datepicker"
-      className="w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
-      icon={<CalendarIcon />}
-      minDate={today}
-      onChange={(date) => handleChange(date)}
-      placeholderText="Due Date"
       selected={startDate}
-      showIcon
+      onChange={handleChange}
+      customInput={<CustomInput />}
+      calendarClassName="bg-color_neutral_3 rounded-t-[4px] border-l border-t border-r border-color_neutral_2"
       todayButton="Today"
+      minDate={today}
     />
   );
 };

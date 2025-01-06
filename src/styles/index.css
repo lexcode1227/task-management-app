@@ -33,39 +33,84 @@
   display: none;
 }
 
-.react-datepicker {
-  @apply bg-white border border-gray-300 rounded-md shadow-md;
+body .react-datepicker {
+  @apply bg-color_neutral_5 text-color_neutral_1;
 }
 
-.react-datepicker__header {
-  @apply bg-gray-100 border-b border-gray-300;
+body .react-datepicker__header {
+  @apply bg-color_neutral_5 border-b border-color_neutral_2;
 }
 
-.react-datepicker__current-month,
-.react-datepicker__day-name {
-  @apply text-gray-700;
+body .react-datepicker__navigation {
+  @apply text-color_neutral_1 top-2.5;
 }
 
-.react-datepicker__day {
-  @apply text-gray-900 hover:bg-gray-200;
+body .react-datepicker__week {
+  @apply grid grid-cols-7 gap-1 bg-color_neutral_5;
 }
 
-.react-datepicker__day--selected {
-  @apply bg-blue-500 text-white;
+body .react-datepicker__day-names {
+  @apply grid grid-cols-7 gap-1 border-t border-color_neutral_2 py-2;
 }
 
-.react-datepicker__day--keyboard-selected {
-  @apply bg-blue-300 text-white;
+body .react-datepicker__day-name {
+  @apply text-center text-sm font-medium text-color_neutral_1;
 }
 
-.react-datepicker__day--today {
-  @apply font-bold;
+body .react-datepicker__day {
+  @apply flex h-8 w-8 items-center justify-center text-sm text-color_neutral_1;
 }
 
-.react-datepicker__calendar-icon {
-  @apply w-6 p-1.5;
+body .react-datepicker__day:not([aria-disabled=true]):hover {
+  @apply bg-color_primary_4;
 }
 
-.react-datepicker__view-calendar-icon input {
-  @apply pt-1.5 pr-2.5 pb-1.5 pl-9;
+body .react-datepicker__day--selected,
+      .react-datepicker__day--keyboard-selected {
+  @apply bg-color_primary_4 font-semibold text-color_neutral_1;
+}
+
+body .react-datepicker__day--keyboard-selected {
+  @apply bg-transparent;
+}
+
+body .react-datepicker__day--today {
+  @apply font-bold text-color_primary_1 bg-color_neutral_5;
+}
+
+body .react-datepicker__day--outside-month {
+  @apply text-color_neutral_2 opacity-50;
+}
+
+body .react-datepicker__month {
+  @apply bg-color_neutral_5 m-0 text-color_neutral_1;
+}
+
+body h2.react-datepicker__current-month {
+  @apply text-center text-sm font-semibold text-color_neutral_1 m-1 p-1;
+}
+
+body .react-datepicker__month-dropdown,
+body .react-datepicker__year-dropdown {
+  @apply mt-1 rounded-md border border-color_neutral_2 bg-color_neutral_3;
+}
+
+body .react-datepicker__year-option {
+  @apply cursor-pointer text-sm hover:bg-color_neutral_4;
+}
+
+body .react-datepicker__today-button {
+  @apply bg-color_neutral_5 text-color_primary_4 text-sm font-normal rounded-b-md border-solid border-t-2 border-color_neutral_2;
+}
+
+body .react-datepicker__aria-live {
+  position: absolute;
+  clip-path: circle(0);
+  border: 0;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  width: 1px;
+  white-space: nowrap;
 }

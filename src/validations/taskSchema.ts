@@ -1,17 +1,17 @@
 import { z } from "zod";
 
 const PointEstimateEnum = z.enum(["EIGHT", "FOUR", "ONE", "TWO", "ZERO"], {
-  errorMap: () => ({ message: "The field is required" }),
+  errorMap: () => ({ message: "The point estimate is required" }),
 });
 const StatusEnum = z.enum(
   ["BACKLOG", "CANCELLED", "DONE", "IN_PROGRESS", "TODO"],
   {
-    errorMap: () => ({ message: "This field is required" }),
+    errorMap: () => ({ message: "This status is required" }),
   },
 );
-const TaskTagEnum = z.enum(["ANDROID", "IOS", "REACT", "NODE_JS", "RAILS"], {
-  errorMap: () => ({ message: "The label is required" }),
-});
+const TaskTagEnum = z.array(z.enum(["ANDROID", "IOS", "REACT", "NODE_JS", "RAILS"], {
+  errorMap: () => ({ message: "The Tags are required" }),
+}));
 
 export const taskSchema = z.object({
   name: z

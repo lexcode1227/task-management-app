@@ -1,34 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { taskSchema } from "../../validations/taskSchema";
-import {
-  CreateTaskInput,
-  PointEstimate,
-  Status,
-  TaskTag,
-  useCreateTaskMutation,
-  useGetUsersQuery,
-} from "../../gql/graphql";
+import { CreateTaskInput, PointEstimate, Status, TaskTag, useCreateTaskMutation, useGetUsersQuery } from "../../gql/graphql";
 import { toast } from "sonner";
 import * as Dialog from "@radix-ui/react-dialog";
 import { CREATE_TASK_FRAGMENT } from "../../gql/query/fragments";
+import MultiSelect from "./MultiSelect";
 
 interface FormProps {
   handleClose: () => void;
 }
 
 const Form = ({ handleClose }: FormProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<CreateTaskInput>({
+  const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<CreateTaskInput>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
       status: Status.Backlog,
     },
   });
+  const selectedTags = watch('tags', []);
   const { data: usersData, loading: usersLoading } = useGetUsersQuery();
 
   const [createTaskMutation, { loading, error }] = useCreateTaskMutation({
@@ -58,15 +48,11 @@ const Form = ({ handleClose }: FormProps) => {
       {value}
     </option>
   ));
-  const tagsOptions = Object.entries(TaskTag).map(([key, value]) => (
-    <option
-      className="flex h-[25px] select-none items-center gap-2 rounded-[3px] bg-color_neutral_3 px-[25px] text-[13px] leading-none text-color_neutral_1 hover:bg-color_neutral_4"
-      key={key}
-      value={value}
-    >
-      {value}
-    </option>
-  ));
+
+  const tagsOptions = Object.entries(TaskTag).map(([key, value]) => ({
+    value: key,
+    key: value,
+  }));
 
   const assigneeOptions = usersData?.users?.map((user) => (
     <option
@@ -79,6 +65,10 @@ const Form = ({ handleClose }: FormProps) => {
   ));
 
   const today = new Date().toISOString().split("T")[0];
+
+  const handleTagsChange = (selectedValues: any) => {
+    setValue('tags', selectedValues);
+  };
 
   const onSubmit: SubmitHandler<CreateTaskInput> = async (data) => {
     try {
@@ -140,17 +130,14 @@ const Form = ({ handleClose }: FormProps) => {
           {errors.assigneeId && <p>{errors.assigneeId.message}</p>}
         </div>
         <div className="mb-2.5 grid w-1/4 text-color_neutral_2">
-          <select
-            className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded bg-color_neutral_2/10 text-[13px] leading-none shadow-[0_2px_10px] shadow-black/10 outline-none focus:shadow-none"
-            id="tags"
-            {...register("tags")}
-            required
-          >
-            {tagsOptions}
-          </select>
+          <MultiSelect
+            options={tagsOptions}
+            selectedValues={selectedTags}
+            onChange={handleTagsChange}
+          />
           {errors.tags && <p>{errors.tags.message}</p>}
         </div>
-        <div className="mb-2.5 grid w-1/4 text-color_neutral_2">
+        <div className="mb-2.5 grid w-[30%] text-color_neutral_2">
           <input
             className="h-full w-full bg-color_neutral_2/10 px-2 text-color_neutral_2"
             id="dueDate"

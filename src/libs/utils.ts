@@ -1,5 +1,10 @@
 import { PointEstimate } from "../gql/graphql";
 
+interface Option {
+  key: string;
+  value: string;
+}
+
 export const formatDate = (date: string) => {
   const newDate = new Date(date);
   return newDate.toLocaleDateString("en-US", {
@@ -32,4 +37,17 @@ export const formatStatus = (statusValue: string): string => {
     .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+};
+
+export const formatSelectedValues = (options: Option[], selectedValues: string[]) => {
+  const maxVisibleItems = 1;
+  const visibleItems = options
+    .filter((option) => selectedValues.includes(option.value))
+    .map((option) => option.value);
+
+  if (visibleItems.length > maxVisibleItems) {
+    return `${visibleItems.slice(0, maxVisibleItems).join(', ')}...`;
+  }
+
+  return visibleItems.join(', ');
 };

@@ -1,172 +1,239 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { taskSchema } from "../../validations/taskSchema";
-import { CreateTaskInput, Status } from "../../gql/graphql";
+import { CreateTaskInput, PointEstimate, Status, TaskTag, useCreateTaskMutation, useGetUsersQuery } from "../../gql/graphql";
 import * as Form from "@radix-ui/react-form";
 import SelectInput from "./SelectInput";
-import TagIcon from "../../assets/icons/tag-icon.svg?react";
 import UserIcon from "../../assets/icons/user-icon.svg?react";
 import EstimateIcon from "../../assets/icons/estimate-icon.svg?react";
 import * as Dialog from "@radix-ui/react-dialog";
-// import ReactDatePicker from "react-datepicker";
-// import { useState } from "react";
+import { toast } from "sonner";
+import { CREATE_TASK_FRAGMENT } from "../../gql/query/fragments";
+import ReactDatePicker from "./ReactDatePicker";
+import MultiSelect from "./MultiSelect";
 
-const TaskForm = () => {
-  // const [startDate, setStartDate] = useState<Date>(new Date());
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<CreateTaskInput>({
-    resolver: zodResolver(taskSchema),
-    defaultValues: {
-      status: Status.Backlog,
-    },
-  });
+interface FormProps {
+    handleClose: () => void;
+}
 
-  const optionsInput = [
+const FormTest = ({ handleClose }: FormProps) => {
+    const { control, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<CreateTaskInput>({
+        resolver: zodResolver(taskSchema),
+        defaultValues: {
+          status: Status.Backlog,
+        },
+      });
+    const selectedTags = watch('tags', []);
+    const { data: usersData, loading: usersLoading } = useGetUsersQuery();
+    const [createTaskMutation, { loading: mutationLoading, error: mutationError }] = useCreateTaskMutation({
+      update(cache, { data }) {
+        if (!data?.createTask) return;
+        cache.modify({
+          fields: {
+            tasks(existingTasks = []) {
+              const newTaskRef = cache.writeFragment({
+                data: data.createTask,
+                fragment: CREATE_TASK_FRAGMENT,
+              });
+  
+              return [...existingTasks, newTaskRef];
+            },
+          },
+        });
+      },
+    });
+
+    const handleTagsChange = (selectedValues: any) => {
+      setValue('tags', selectedValues);
+    };
+    
+    const optionsInput = [
     {
-      title: "Estimate",
-      icon: <EstimateIcon />,
-      options: [
-        { value: "ZERO", label: "0", text: "Points" },
-        { value: "ONE", label: "1", text: "Points" },
-        { value: "TWO", label: "2", text: "Points" },
-        { value: "FOUR", label: "4", text: "Points" },
-        { value: "EIGHT", label: "8", text: "Points" },
-      ],
+        title: "Estimate",
+        icon: <EstimateIcon />,
+        options: Object.entries(PointEstimate).map(([_, value]) => ({
+          key: value,
+          value: value,
+        }))
     },
     {
-      title: "Assignee",
-      icon: <UserIcon />,
-      options: [
-        { value: "JONH", label: "John", text: "" },
-        { value: "SAM", label: "Sam", text: "" },
-        { value: "STEVEN", label: "Steven", text: "" },
-        { value: "ALEX", label: "Alex", text: "" },
-      ],
+        title: "Assignee",
+        icon: <UserIcon />,
+        options: usersData?.users.map((user) => ({
+          key: user.fullName,
+          value: user.id,
+        })),
     },
-    {
-      title: "Tags",
-      icon: <TagIcon />,
-      options: [
-        { value: "ANDROID", label: "Android", text: "" },
-        { value: "IOS", label: "IOS", text: "" },
-        { value: "REACT", label: "React", text: "" },
-        { value: "NODE_JS", label: "Node Js", text: "" },
-        { value: "RAILS", label: "Rails", text: "" },
-      ],
-    },
-  ];
+    // {
+    //     title: "Tags",
+    //     icon: <TagIcon />,
+    //     options: Object.entries(TaskTag).map(([key, value]) => ({
+    //         key: key,
+    //         value: value,
+    //       })),
+    // },
+    ];
+    const tagsOptions = Object.entries(TaskTag).map(([key, value]) => ({
+        key: key,
+        value: value,
+    }))
 
-  const today = new Date().toISOString().split("T")[0];
-
-  const onSubmit = (data: CreateTaskInput) => {
-    console.log(data);
-    reset();
-  };
-  return (
-    <Form.Root
-      className="flex w-full flex-col text-color_neutral_2"
-      name="taskForm"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Form.Field
-        className="mb-2.5 grid text-color_neutral_2"
-        key="taskName"
-        name="taskName"
-      >
-        <div className="flex items-baseline justify-between">
-          {errors.name && (
-            <Form.Message className="text-[13px] text-color_neutral_1 opacity-80">
-              {errors.name?.message}
-            </Form.Message>
-          )}
-        </div>
-        <Form.Control asChild>
-          <input
-            {...register("name")}
-            className="inline-flex h-[35px] w-full flex-1 items-center justify-center rounded bg-transparent px-2.5 text-[15px] leading-none text-color_neutral_2 outline-none"
-            placeholder="Task title"
-            type="text"
-          />
-        </Form.Control>
-      </Form.Field>
-      <div className="flex w-full gap-2.5">
-        {optionsInput.map((option) => (
+    const onSubmit: SubmitHandler<CreateTaskInput> = async (data) => {
+      try {
+        await createTaskMutation({
+          variables: {
+            input: data,
+          },
+        });
+        toast.success(`${data.name} created successfully`);
+        reset();
+        handleClose();
+      } catch (err) {
+        toast.error(`Error creating task ${data.name} ${mutationError?.message}`);
+      }
+    };
+      return (
+        <Form.Root
+          className="flex w-full flex-col text-color_neutral_2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Form.Field
-            className="mb-2.5 grid w-[23%] text-color_neutral_2"
-            key={option.title}
-            name={option.title.toLowerCase()}
+            key="name"
+            className="mb-2.5 grid text-color_neutral_2"
+            name="name"
           >
             <div className="flex items-baseline justify-between">
-              <Form.Message
-                className="text-[13px] text-white opacity-80"
-                match="valueMissing"
-              >
-                The field is required
-              </Form.Message>
+              { errors.name && 
+                <Form.Message
+                  className="text-[13px] text-color_neutral_1 opacity-80"
+                  match="valueMissing"
+                >
+                  {errors.name?.message}
+                </Form.Message>
+              }
             </div>
             <Form.Control asChild>
-              <SelectInput
-                icon={option.icon}
-                options={option.options}
-                titleSelect={option.title}
+              <input
+                className="inline-flex h-[35px] w-full flex-1 items-center justify-center rounded bg-transparent px-2.5 leading-none text-color_neutral_1 text-body-M font-bold outline-none"
+                type="text"
+                placeholder="Task title"
+                {...control.register("name")}
               />
             </Form.Control>
           </Form.Field>
-        ))}
-        <Form.Field
-          className="mb-2.5 grid w-[23%] text-color_neutral_2"
-          name="dueDate"
-        >
-          <div className="flex w-full items-baseline justify-between">
-            {errors.dueDate && (
-              <Form.Message className="text-[13px] text-color_neutral_1 opacity-80">
-                {errors.dueDate.type === "required" && "The field is required"}
-              </Form.Message>
-            )}
+          <div className="flex w-full gap-2.5">
+            {optionsInput.map((option) => (
+              <Form.Field
+                key={option.title === "Estimate" ? "pointEstimate" : "assigneeId"}
+                className="mb-2.5 grid w-1/4 text-color_neutral_2"
+                name={option.title === "Estimate" ? "pointEstimate" : "assigneeId"}
+              >
+                <div className="flex items-baseline justify-between">
+                  {errors[option.title === "Estimate" ? "pointEstimate" : option.title === "Assignee" ? "assigneeId" : "tags"] &&
+                    <Form.Message
+                      className="text-[13px] text-white opacity-80"
+                      match="valueMissing"
+                    >
+                      {errors[option.title === "Estimate" ? "pointEstimate" : option.title === "Assignee" ? "assigneeId" : "tags"]?.message}
+                    </Form.Message>
+                  }
+                </div>
+                <Form.Control asChild>
+                    <Controller
+                        name={option.title === "Estimate" ? "pointEstimate" : "assigneeId"}
+                        control={control}
+                        render={({ field }) => (
+                            <SelectInput
+                                {...field}
+                                titleSelect={option.title}
+                                icon={option.icon}
+                                options={option.options}
+                                onChange={field.onChange}
+                            />
+                        )}
+                    />
+                </Form.Control>
+              </Form.Field>
+            ))}
+            <Form.Field key="tags" className="mb-2.5 grid w-1/4 text-color_neutral_2" name="tags">
+                {errors.tags &&
+                  <Form.Message
+                    className="text-[13px] text-white opacity-80"
+                    match="valueMissing"
+                  >
+                    {errors.tags?.message}
+                  </Form.Message>
+                }
+                <Form.Control asChild>
+                  <Controller
+                      name="tags"
+                      control={control}
+                      render={({ field }) => (
+                          <MultiSelect
+                            {...field}
+                            options={tagsOptions}
+                            selectedValues={selectedTags}
+                            onChange={handleTagsChange}
+                          />
+                      )}
+                  />
+                </Form.Control>
+            </Form.Field>
+
+            <Form.Field
+              className="mb-2.5 grid w-1/4 text-color_neutral_2"
+              name="dueDate"
+              key="dueDate"
+            >
+              <div className="flex w-full items-baseline justify-between">
+                <Form.Message
+                  className="text-[13px] text-white opacity-80"
+                  match="valueMissing"
+                >
+                  Please enter a valid date in the future
+                </Form.Message>
+              </div>
+              <Form.Control asChild>
+                <Controller
+                  name="dueDate"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactDatePicker
+                      startDate={field.value}
+                      handleChange={field.onChange}
+                    />
+                  )}
+                />
+                {/* <div className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded bg-color_neutral_2/10 text-[13px] leading-none shadow-[0_2px_10px] shadow-black/10 outline-none focus:shadow-none">
+                  <input
+                    className="h-full w-full bg-color_neutral_2/10 px-2 text-color_neutral_2"
+                    id="dueDate"
+                    type="date"
+                    {...control.register("dueDate", { valueAsDate: true })}
+                    min={today}
+                    required
+                  />
+                </div> */}
+              </Form.Control>
+            </Form.Field>
           </div>
-          <Form.Control asChild>
-            <div className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded bg-color_neutral_2/10 text-[13px] leading-none shadow-[0_2px_10px] shadow-black/10 outline-none focus:shadow-none">
-              <input
-                className="h-full w-full bg-color_neutral_2/10 px-2 text-color_neutral_2"
-                id="dueDate"
-                type="date"
-                {...register("dueDate", { valueAsDate: true })}
-                min={today}
-                required
-              />
+          <Form.Submit asChild>
+            <div className="mt-[25px] flex justify-end gap-6">
+              <Dialog.Close asChild>
+                <button
+                  className="text-color_neutral_1 inline-flex w-16 appearance-none items-center justify-center rounded-lg bg-transparent p-2 focus:shadow-[0_0_0_2px] focus:outline-none"
+                  aria-label="Close"
+                >
+                  Cancel
+                </button>
+              </Dialog.Close>
+                <button type="submit" disabled={mutationLoading || usersLoading} className="inline-flex min-w-16 w-auto items-center justify-center rounded-lg bg-color_primary_4 p-2 text-body-M font-normal leading-none text-color_neutral_1 focus:shadow-[0_0_0_2px] focus:outline-none">
+                    { mutationLoading ? "Creating..." : "Create"}
+                </button>
             </div>
-          </Form.Control>
-        </Form.Field>
-      </div>
-      {/* <ReactDatePicker 
-        selected={startDate} 
-        onChange={(date) => handleChange(date)}/> */}
-      <Form.Submit asChild>
-        <div className="mt-[25px] flex justify-end gap-6">
-          <Dialog.Close asChild>
-            <button
-              aria-label="Close"
-              className="text-violet11 hover:bg-violet4 focus:shadow-violet7 inline-flex w-16 appearance-none items-center justify-center rounded-lg bg-transparent p-2 focus:shadow-[0_0_0_2px] focus:outline-none"
-            >
-              Cancel
-            </button>
-          </Dialog.Close>
-          <Dialog.Close asChild>
-            <button
-              className="hover:bg-green5 focus:shadow-green7 inline-flex w-16 items-center justify-center rounded-lg bg-color_primary_2 p-2 text-body-M font-normal leading-none text-color_neutral_1 focus:shadow-[0_0_0_2px] focus:outline-none"
-              type="submit"
-            >
-              Create
-            </button>
-          </Dialog.Close>
-        </div>
-      </Form.Submit>
-    </Form.Root>
-  );
+          </Form.Submit>
+        </Form.Root>
+      );
 };
 
-export default TaskForm;
+export default FormTest
