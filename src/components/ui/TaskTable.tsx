@@ -5,7 +5,6 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@radix-ui/react-accordion";
-import TaskColumnSkeleton from "./loadingSkeletons/TaskColumnSkeleton";
 import ChevronDownIcon from "../../assets/icons/chevron-down.svg?react";
 import { cn, formatDueDate, formatEstimatePoint, formatStatus, getTodayDate } from "../../libs/utils";
 import Tags from "./Tags";
@@ -16,7 +15,6 @@ interface TaskTableProps {
 }
 
 const TaskTable = ({ status, tasks }: TaskTableProps) => {
-  if (!tasks) return <TaskColumnSkeleton />;
   return (
     <Accordion className="w-full min-w-[348px]" collapsible type="single">
       <AccordionItem className="accordion-item" value="item-1">
@@ -33,7 +31,8 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
         <AccordionContent className="accordion-content">
           <table className="h-auto w-full border-collapse border-spacing-x-0 border-spacing-y-[15px] rounded-xl text-justify">
             <tbody className="flex flex-col bg-color_neutral_4 text-body-M text-color_neutral_1">
-              {tasks.map((task, index) => (
+              {tasks.length !== 0 ? 
+                tasks.map((task, index) => (
                 <tr
                   className="flex h-14 w-full items-center justify-between text-body-M text-color_neutral_1"
                   key={task.id}
@@ -103,7 +102,13 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
                     {formatDueDate(task.dueDate)}
                   </td>
                 </tr>
-              ))}
+              )) : 
+              <tr className="flex h-14 w-full items-center justify-between text-body-M text-color_neutral_1">
+                <td className="flex h-14 w-full items-center justify-center border border-color_neutral_3 pl-4">
+                  No tasks found
+                </td>
+              </tr>
+              }
             </tbody>
           </table>
         </AccordionContent>

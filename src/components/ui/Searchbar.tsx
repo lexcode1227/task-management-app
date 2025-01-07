@@ -4,18 +4,25 @@ import UserIcon from "../../assets/icons/user-icon.svg?react";
 import ClearIcon from "../../assets/icons/x-icon.svg?react";
 import Dropdown from "./Dropdown";
 import { useNavigate } from "react-router";
-import { useState } from "react";
-// import { useDebounce } from "use-debounce";
+import { useDebounce } from "use-debounce";
+import { useAppStore } from "../../store/store";
+import { useEffect, useState } from "react";
 
 const Searchbar = () => {
-  const [search, setSearch] = useState<string>("");
-  // const [debouncedSearch] = useDebounce(search, 300);
+  const [search, setSearch] = useState("");
+  const setSearchByTaskName = useAppStore(state => state.setSearchByTaskName);
+  const [debouncedSearch] = useDebounce(search, 300);
   const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
   const clearSearch = () => setSearch("");
+  
+  useEffect(() => {
+    setSearchByTaskName(debouncedSearch);
+  }, [debouncedSearch]);
+
   return (
     <div className="flex h-auto items-center justify-between rounded-2xl bg-color_neutral_4">
       <div className="text-color_neutra_2 relative grid h-full w-full grid-cols-1 items-center rounded-lg">

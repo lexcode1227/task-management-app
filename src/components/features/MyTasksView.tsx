@@ -7,6 +7,7 @@ import TableView from "./TableView";
 
 const MyTasksView = () => {
   const viewMode = useAppStore((state) => state.viewMode);
+  const searchByTaskName = useAppStore((state) => state.searchByTaskName);
 
   const { loading, error, data } = useGetTasksQuery({
     variables: {
@@ -15,8 +16,11 @@ const MyTasksView = () => {
       },
     },
   });
-  console.log(data);
+  
   const tasks = data?.tasks || [];
+  const filteredTasks = tasks.filter((task) => {
+    return task.name.toLowerCase().includes(searchByTaskName.toLowerCase());
+  });
 
   if (loading) return <TaskColumnSkeleton />;
   if (error) return <ErrorLayout message={error.message} />;
@@ -26,9 +30,9 @@ const MyTasksView = () => {
   return (
     <section className="scroll-hidden w-full flex-1 overflow-x-auto overscroll-x-none">
       {viewMode === "grid" ? (
-        <GridView statusOptions={statusOptions} tasks={tasks} />
+        <GridView statusOptions={statusOptions} tasks={searchByTaskName !== "" ? filteredTasks : tasks} />
       ) : (
-        <TableView statusOptions={statusOptions} tasks={tasks} />
+        <TableView statusOptions={statusOptions} tasks={searchByTaskName !== "" ? filteredTasks : tasks} />
       )}
     </section>
   );
