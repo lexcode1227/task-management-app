@@ -5,29 +5,35 @@ import TasksIcon from "../../assets/icons/menu-hamburguer.svg?react";
 import ChevronDoubleLeft from "../../assets/icons/chevron-double-left.svg?react";
 import ChevronDoubleRight from "../../assets/icons/chevron-double-right.svg?react";
 import { cn } from "../../libs/utils";
+import { useAppStore } from "../../store/store";
+import UserNavlinkSkeleton from "./loadingSkeletons/UserNavlinkSkeleton";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
+  loading: boolean;
   handleSidebarToggle: () => void;
 }
 
-const Sidebar = ({ isSidebarOpen, handleSidebarToggle}: SidebarProps) => {
+const Sidebar = ({ isSidebarOpen, loading, handleSidebarToggle }: SidebarProps) => {
+  const userInformation = useAppStore((state) => state.user);
+
   const navLinks = [
     {
-      title: "Dashboard",
+      title: "DASHBOARD",
       url: "/",
       icon: DashboardIcon,
     },
     {
-      title: "My Task",
+      title: "MY TASKS",
       url: "/tasks",
       icon: TasksIcon,
     }
   ];
+
   return (
     <aside
       className={cn(
-        "fixed z-10 mb-8 w-full max-w-[232px] h-[95vh] md:h-full flex flex-col justify-between rounded-3xl bg-color_neutral_4 pt-3 transition-transform duration-300 md:relative",
+        "fixed z-10 mb-8 flex h-[95vh] w-full max-w-[232px] flex-col justify-between rounded-3xl bg-color_neutral_4 pt-3 transition-transform duration-300 md:relative md:h-full",
         {
           "translate-x-0": isSidebarOpen,
           "-translate-x-[108%] md:translate-x-0": !isSidebarOpen,
@@ -37,7 +43,7 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle}: SidebarProps) => {
       <button
         onClick={handleSidebarToggle}
         className={cn(
-          "fixed md:hidden -right-8 bottom-16 z-50 rounded-lg bg-color_neutral_4 p-2 text-color_neutral_2 transition-all duration-300",
+          "fixed -right-9 bottom-16 z-10 rounded-lg bg-transparent border border-color_primary_4 p-2 text-color_primary_4 transition-all duration-300 md:hidden",
         )}
       >
         {isSidebarOpen ? (
@@ -54,12 +60,16 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle}: SidebarProps) => {
               <li className="w-full pl-4" key={index}>
                 <NavLink
                   className={({ isActive }) =>
-                    cn("relative flex h-14 items-center gap-4", {
-                      "border-r-4 border-r-color_primary_4 text-color_primary_4":
-                        isActive,
-                      "text-color_neutral_2": !isActive,
-                    })
+                    cn(
+                      "relative flex h-14 items-center gap-4 hover:text-color_primary_4",
+                      {
+                        "border-r-4 border-r-color_primary_4 text-color_primary_4 bg-gradient-to-r from-[#BA252500] from-10% to-[#D24D4D1A] to-100%":
+                          isActive,
+                        "text-color_neutral_2": !isActive,
+                      },
+                    )
                   }
+                  onClick={handleSidebarToggle}
                   to={navLinkItem.url}
                 >
                   <navLinkItem.icon height={24} width={24} />
@@ -70,25 +80,36 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle}: SidebarProps) => {
           </ul>
         </nav>
       </div>
-      <NavLink
-        className={({ isActive }) =>
-          cn("flex w-full items-center gap-4 pb-3", {
-            "text-color_primary_4": isActive,
-            "text-color_neutral_2": !isActive,
-          })
-        }
-        to={"/profile"}
-      >
-        <img
-          className="ml-4 size-9 rounded-lg"
-          src="https://eu.ui-avatars.com/api/?name=HenryAgustin&size=250"
-          alt="user avatar"
-        />
-        <div className={cn("flex w-full flex-col items-start gap-1")}>
-          <h2 className="text-sm font-bold">Henry Agustin</h2>
-          <h3 className="text-xs font-medium">henryagustin@ravn.co</h3>
-        </div>
-      </NavLink>
+      {loading ? (
+        <UserNavlinkSkeleton />
+      ) : (
+        <NavLink
+          className={({ isActive }) =>
+            cn(
+              "flex w-full items-center gap-4 pb-3 hover:text-color_primary_4",
+              {
+                "text-color_primary_4": isActive,
+                "text-color_neutral_2": !isActive,
+              },
+            )
+          }
+          to={"/profile"}
+          onClick={handleSidebarToggle}
+        >
+          <img
+            className="ml-4 size-9 rounded-lg"
+            src={
+              userInformation?.avatar ||
+              "https://eu.ui-avatars.com/api/?name=HenryAgustin&size=250"
+            }
+            alt="user avatar"
+          />
+          <div className={cn("flex w-full flex-col items-start gap-1")}>
+            <h2 className="text-sm font-bold">{userInformation?.fullName}</h2>
+            <h3 className="text-xs font-medium">{userInformation?.email}</h3>
+          </div>
+        </NavLink>
+      )}
     </aside>
   );
 };

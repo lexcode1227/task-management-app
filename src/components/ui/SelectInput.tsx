@@ -28,12 +28,15 @@ const SelectInput = React.forwardRef<HTMLButtonElement, SelectInputProps>(
           <Select.Icon className="text-color_neutral_1">
             {icon && <span>{icon}</span>}
           </Select.Icon>
-          <Select.Value placeholder={titleSelect} />
+          <Select.Value
+            className="text-body-S md:text-body-M"
+            placeholder={titleSelect}
+          />
         </Select.Trigger>
         <Select.Portal>
           <Select.Content
             align="end"
-            className="mt-2 overflow-hidden rounded-lg border border-color_neutral_2 bg-color_neutral_3 py-2 shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
+            className="z-30 mt-2 overflow-hidden rounded-lg border border-color_neutral_2 bg-color_neutral_3 py-2 shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
             position="popper"
           >
             <Select.ScrollUpButton className="flex h-[25px] cursor-default items-center justify-center rounded bg-color_neutral_2/10 text-color_neutral_1">
@@ -48,22 +51,24 @@ const SelectInput = React.forwardRef<HTMLButtonElement, SelectInputProps>(
                     className="flex h-[25px] select-none items-center gap-2 rounded-[3px] px-[25px] text-[13px] leading-none text-color_neutral_1 hover:bg-color_neutral_3"
                   >
                     <Select.Icon className="text-color_neutral_2">
-                      { titleSelect === "Estimate" ? <span>{icon}</span> :
+                      {titleSelect === "Estimate" ? (
+                        <span>{icon}</span>
+                      ) : (
                         <img
-                          className="w-8 h-8 rounded-full"
+                          className="h-8 w-8 rounded-full"
                           src={
                             option.avatar ||
                             "https://eu.ui-avatars.com/api/?name=HenryAgustin&size=250"
                           }
                           alt={option.key}
                         />
-                      }
+                      )}
                     </Select.Icon>
-                    <Select.ItemText>
+                    <Select.ItemText className="text-body-S md:text-body-M">
                       {titleSelect === "Estimate"
-                        ? formatEstimatePoint(option.value as PointEstimate) +
-                          " Points"
-                        : option.key}{" "}
+                        ? <span className="text-body-S md:text-body-M">{formatEstimatePoint(option.value as PointEstimate) + " Points"}</span> 
+                        : <span className="text-body-S md:text-body-M">{option.key}{" "}</span>
+                      }
                     </Select.ItemText>
                   </Select.Item>
                 ))}

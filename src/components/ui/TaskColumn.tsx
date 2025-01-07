@@ -9,7 +9,7 @@ interface TaskColumnProps {
 
 const TaskColumn = ({ status, tasks }: TaskColumnProps) => {
   return (
-    <section className="flex w-full min-w-[348px] max-w-96 flex-1 flex-col gap-4">
+    <section className="flex w-full min-w-[348px] max-w-[350px] flex-1 flex-col gap-4">
       <h2 className="text-body-L font-bold text-color_neutral_1">
         {formatStatus(status)} ({tasks.length})
       </h2>

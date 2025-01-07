@@ -33,7 +33,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props
       <div className="relative inline-block w-full">
         <button
           ref={ref}
-          className="flex h-[35px] w-full cursor-pointer items-center justify-center gap-2 rounded bg-color_neutral_2/10 px-2 font-bold text-color_neutral_1 outline-none"
+          className="flex h-[35px] w-full cursor-pointer items-center justify-center gap-2 rounded bg-color_neutral_2/10 px-2 text-body-S font-bold text-color_neutral_1 outline-none md:text-body-M"
           type="button"
           onClick={handleSelectClick}
         >
@@ -47,7 +47,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props
           )}
         </button>
         {isOpen && (
-          <div className="absolute z-10 mt-1 w-full rounded-lg border border-color_neutral_2 bg-color_neutral_3 shadow-lg">
+          <div className="absolute z-10 mt-1 w-auto md:w-full rounded-lg border border-color_neutral_2 bg-color_neutral_3 shadow-lg">
             {options.map((option) => (
               <div className="inline-flex items-center">
                 <label
@@ -59,7 +59,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props
                     value={option.value}
                     checked={selectedValues.includes(option.value)}
                     onChange={() => handleCheckboxChange(option.value)}
-                    className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-color_neutral_1 shadow transition-all checked:border-transparent checked:bg-traborder-transparent hover:shadow-md"
+                    className="checked:bg-traborder-transparent peer h-5 w-5 cursor-pointer appearance-none rounded border border-color_neutral_1 text-body-S shadow transition-all checked:border-transparent hover:shadow-md md:text-body-M"
                   />
                   <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 transform text-white opacity-0 peer-checked:opacity-100">
                     <svg
@@ -77,7 +77,9 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props
                       ></path>
                     </svg>
                   </span>
-                  <span className="text-color_neutral_2">{option.value}</span>
+                  <span className="text-body-S text-color_neutral_2 md:text-body-M">
+                    {option.value}
+                  </span>
                 </label>
               </div>
             ))}

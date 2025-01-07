@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router";
 import { Toaster } from "sonner";
 import Searchbar from "../ui/Searchbar";
 import Sidebar from "../ui/Sidebar";
 import Topbar from "../ui/Topbar";
+import { useGetProfileInformationQuery } from "../../gql/graphql";
+import { useAppStore } from "../../store/store";
 
 const Layout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const isSidebarOpen = useAppStore((state) => state.isSidebarOpen);
+  const setIsSidebarOpen = useAppStore((state) => state.setIsSidebarOpen);  
+  const setUser = useAppStore((state) => state.setUser);
+  const { data, loading } = useGetProfileInformationQuery();
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() => {
+    if (data?.profile) {
+      setUser(data?.profile);
+    } 
+  }, [data]);
 
   return (
     <>
@@ -18,6 +29,7 @@ const Layout = () => {
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           handleSidebarToggle={handleSidebarToggle}
+          loading={loading}
         />
         <section className="flex w-full flex-col md:w-[calc(100vw-328px)]">
           <Searchbar />
