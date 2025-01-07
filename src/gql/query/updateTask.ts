@@ -6,6 +6,7 @@ export const UPDATE_TASK = gql`
       id
       name
       status
+      pointEstimate
       tags
       dueDate
       position
