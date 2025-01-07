@@ -11,13 +11,14 @@ import { toast } from "sonner";
 import { CREATE_TASK_FRAGMENT } from "../../gql/query/fragments";
 import ReactDatePicker from "./ReactDatePicker";
 import MultiSelect from "./MultiSelect";
+import { useEffect } from "react";
 
 interface FormProps {
   task?: Task
   handleClose: () => void;
 }
 
-const TaskForm = ({ task, handleClose }: FormProps) => {
+const TaskForm = ({ task, handleClose }: FormProps) => {  
     const isEditMode = !!task;
     const { control, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<CreateTaskInput>({
         resolver: zodResolver(taskSchema),
@@ -25,11 +26,17 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
           name: task?.name || '',
           pointEstimate: task?.pointEstimate || undefined,
           assigneeId: task?.assignee?.id || undefined,
-          dueDate: task ? new Date(task.dueDate) : null,
+          dueDate: task ? new Date(task.dueDate) : undefined,
           tags: task?.tags || [],
           status: task?.status || Status.Backlog,
         },
       });
+    
+    useEffect(() => {
+      if (task) {
+        setValue("tags", task.tags);
+      }
+    }, [task, setValue]);
     
     const selectedTags = watch('tags', []);
     const { data: usersData } = useGetUsersQuery();
@@ -88,6 +95,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
         options: usersData?.users.map((user) => ({
           key: user.fullName,
           value: user.id,
+          avatar: user.avatar,
         })),
     }
     ];
@@ -147,6 +155,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
                 className="inline-flex h-[35px] w-full flex-1 items-center justify-center rounded bg-transparent px-2.5 leading-none text-color_neutral_1 text-body-M font-bold outline-none"
                 type="text"
                 placeholder="Task title"
+                autoComplete="off"
                 {...control.register("name")}
               />
             </Form.Control>
@@ -159,12 +168,12 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
                 name={option.title === "Estimate" ? "pointEstimate" : "assigneeId"}
               >
                 <div className="flex items-baseline justify-between">
-                  {errors[option.title === "Estimate" ? "pointEstimate" : option.title === "Assignee" ? "assigneeId" : "tags"] &&
+                  {errors[option.title === "Estimate" ? "pointEstimate" : "assigneeId"] &&
                     <Form.Message
                       className="text-[13px] text-white opacity-80"
                       match="valueMissing"
                     >
-                      {errors[option.title === "Estimate" ? "pointEstimate" : option.title === "Assignee" ? "assigneeId" : "tags"]?.message}
+                      {errors[option.title === "Estimate" ? "pointEstimate" : "assigneeId"]?.message}
                     </Form.Message>
                   }
                 </div>
@@ -178,6 +187,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
                                 titleSelect={option.title}
                                 icon={option.icon}
                                 options={option.options}
+                                selectedValue={field.value ?? ''}
                                 onChange={field.onChange}
                             />
                         )}
@@ -234,16 +244,6 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
                     />
                   )}
                 />
-                {/* <div className="inline-flex h-[35px] items-center justify-center gap-[5px] rounded bg-color_neutral_2/10 text-[13px] leading-none shadow-[0_2px_10px] shadow-black/10 outline-none focus:shadow-none">
-                  <input
-                    className="h-full w-full bg-color_neutral_2/10 px-2 text-color_neutral_2"
-                    id="dueDate"
-                    type="date"
-                    {...control.register("dueDate", { valueAsDate: true })}
-                    min={today}
-                    required
-                  />
-                </div> */}
               </Form.Control>
             </Form.Field>
           </div>

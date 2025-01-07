@@ -42,7 +42,7 @@ body .react-datepicker {
 }
 
 body .react-datepicker__header {
-  @apply bg-color_neutral_5 border-b border-color_neutral_2;
+  @apply bg-color_neutral_5 border-b-0;
 }
 
 body .react-datepicker__navigation {
@@ -71,7 +71,7 @@ body .react-datepicker__day:not([aria-disabled=true]):hover {
 
 body .react-datepicker__day--selected,
       .react-datepicker__day--keyboard-selected {
-  @apply bg-color_primary_4 font-semibold text-color_neutral_1;
+  @apply bg-transparent border border-color_primary_4 font-semibold text-color_neutral_1;
 }
 
 body .react-datepicker__day--keyboard-selected {
@@ -124,4 +124,32 @@ body .react-datepicker__aria-live {
 }
 .AccordionTrigger[data-state="open"] > .AccordionChevron {
   transform: rotate(180deg);
+}
+
+.checkbox-span:first-child svg {
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 16px;
+  stroke-dashoffset: 16px;
+  transition: all 0.3s ease;
+  transform: translate3d(0, 0, 0);
+}
+
+.checkbox-input:checked + .checkbox span:first-child {
+  background: transparent;
+  border-color: #fff;
+  animation: zoom-in-out 0.3s ease;
+}
+
+.checkbox-input:checked + .checkbox-span:first-child svg {
+  stroke-dashoffset: 0;
+}
+
+@keyframes zoom-in-out {
+  50% {
+    transform: scale(0.9);
+  }
 }
