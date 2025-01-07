@@ -34,7 +34,7 @@
 }
 
 body {
-  scroll-behavior: none
+  overscroll-behavior: none
 }
 
 body .react-datepicker {
