@@ -27,10 +27,9 @@ export const taskSchema = z.object({
   tags: TaskTagEnum,
   dueDate: z
     .date()
-    .min(new Date(), "Must be a valid date in the future.")
     .nullable()
-    .refine((date) => date !== null && date > new Date(), {
-      message: "The date must be a valid date in the future",
+    .refine((date) => date !== null, {
+      message: "The date is required",
     }),
   status: StatusEnum,
 });
