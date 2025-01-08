@@ -61,7 +61,7 @@ const Card = ({ task }: { task: Task }) => {
   if (error) return <ErrorLayout message={error.message} />;
 
   return (
-    <article className="flex h-52 w-full flex-col items-center gap-4 rounded-lg bg-color_neutral_4 p-4 text-white">
+    <article className="flex h-auto w-full flex-col items-center gap-[15px] rounded-lg bg-color_neutral_4 p-4 text-white">
       <div className="flex w-full items-center justify-between">
         <h3 className="py-[2.5px] text-body-L font-bold">{task.name}</h3>
         <Dropdown
@@ -86,7 +86,7 @@ const Card = ({ task }: { task: Task }) => {
         </h4>
         <Tags icon={<ClockIcon />} titleTag={(formatDueDate(task.dueDate))} variant={(getTodayDate() > task.dueDate || formatDueDate(task.dueDate) === "YESTERDAY") ? "RAILS" : undefined} />
       </div>
-      <div className="flex w-full items-center justify-start gap-2">
+      <div className="flex w-full items-center justify-start flex-wrap gap-2">
         {task?.tags?.map((tag) => (
           <Tags key={tag} titleTag={tag} variant={tag} />
         ))}
