@@ -154,7 +154,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
             </div>
             <Form.Control asChild>
               <input
-                className="inline-flex h-[35px] w-full flex-1 items-center justify-center rounded bg-transparent px-2.5 leading-none text-color_neutral_1 text-body-S md:text-body-xL font-bold outline-none"
+                className="inline-flex h-[35px] w-full flex-1 items-center justify-center rounded bg-transparent px-2.5 leading-none text-color_neutral_1 text-body-xL font-bold outline-none"
                 type="text"
                 placeholder="Task title"
                 autoComplete="off"
