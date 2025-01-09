@@ -23,8 +23,9 @@ export default {
         color_neutral_5: "#222528",
         color_blue_1: "#2F61BF",
       },
-      font: {
-        sans: ["sans-serif"],
+      fontFamily: {
+        SFProDisplayBold: ["SFProDisplayBold", "sans-serif"],
+        SFProDisplayRegular: ["SFProDisplayRegular", "sans-serif"],
       },
       fontSize: {
         "display-xL": "64px",

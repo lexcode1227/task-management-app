@@ -15,6 +15,22 @@
   padding: 0;
 }
 
+
+  @font-face {
+    font-family: 'SFProDisplayBold';
+    font-style: bold;
+    font-weight: 700;
+    font-display: swap;
+    src: url("../assets/fonts/SFPRODISPLAYBOLD.OTF") format('otf');
+  }
+  @font-face {
+    font-family: 'SFProDisplayRegular';
+    font-style: regular;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../assets/fonts/SFPRODISPLAYREGULAR.OTF") format('otf');
+  }
+
 ::-webkit-scrollbar {
   width: 6px;
   background: #222528;
@@ -34,7 +50,8 @@
 }
 
 body {
-  overscroll-behavior: none
+  overscroll-behavior: none;
+  font-family: 'SFProDisplayRegular', sans-serif;
 }
 
 body .react-datepicker {

@@ -14,7 +14,13 @@ import LoadingSpinner from "./loadingSkeletons/LoadingSpinner";
 import { useAppStore } from "../../store/store";
 import {  formatDueDate, formatEstimatePoint, getRandomNum, getTodayDate } from "../../libs/utils";
 
-const Card = ({ task }: { task: Task }) => {
+interface CardProps {
+  task: Task;
+  draggable?: boolean;
+  "data-label"?: string;
+}
+
+const Card = ({ task }: CardProps) => {
   const setIsEditingMode = useAppStore((state) => state.setIsEditingMode);
   const setTaskToEdit = useAppStore((state) => state.setTaskToEdit);
   const [deleteTaskMutation, { loading, error }] = useDeleteTaskMutation({

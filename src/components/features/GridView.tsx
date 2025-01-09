@@ -1,5 +1,6 @@
 import { Status, Task } from "../../gql/graphql";
 import TaskColumn from "../ui/TaskColumn";
+// import TaskColumnExample from "../ui/TaskColumnExample";
 
 interface GridViewProps {
   statusOptions: Status[];

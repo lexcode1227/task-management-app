@@ -1,17 +1,18 @@
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { taskSchema } from "../../validations/taskSchema";
-import { CreateTaskInput, PointEstimate, Status, Task, TaskTag, useCreateTaskMutation, useGetUsersQuery, useUpdateTaskMutation } from "../../gql/graphql";
+import { CreateTaskInput, Status, Task, useCreateTaskMutation, useGetUsersQuery, useUpdateTaskMutation } from "../../gql/graphql";
+import { CREATE_TASK_FRAGMENT } from "../../gql/query/fragments";
+import { estimatePointOptions, tagsOptions } from "../../libs/utils";
+import { toast } from "sonner";
+import * as Dialog from "@radix-ui/react-dialog";
 import * as Form from "@radix-ui/react-form";
 import SelectInput from "./SelectInput";
+import MultiSelect from "./MultiSelect";
+import ReactDatePicker from "./ReactDatePicker";
 import UserIcon from "../../assets/icons/user-icon.svg?react";
 import EstimateIcon from "../../assets/icons/estimate-icon.svg?react";
-import * as Dialog from "@radix-ui/react-dialog";
-import { toast } from "sonner";
-import { CREATE_TASK_FRAGMENT } from "../../gql/query/fragments";
-import ReactDatePicker from "./ReactDatePicker";
-import MultiSelect from "./MultiSelect";
-import { useEffect } from "react";
 
 interface FormProps {
   task?: Task
@@ -91,10 +92,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
     {
         title: "Estimate",
         icon: <EstimateIcon />,
-        options: Object.entries(PointEstimate).map(([_, value]) => ({
-          key: value,
-          value: value,
-        }))
+        options: estimatePointOptions
     },
     {
         title: "Assignee",
@@ -106,10 +104,6 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
         })),
     }
     ];
-    const tagsOptions = Object.entries(TaskTag).map(([key, value]) => ({
-        key: key,
-        value: value,
-    }))
 
     const onSubmit: SubmitHandler<CreateTaskInput> = async (data) => {
       try {
@@ -160,7 +154,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
             </div>
             <Form.Control asChild>
               <input
-                className="inline-flex h-[35px] w-full flex-1 items-center justify-center rounded bg-transparent px-2.5 leading-none text-color_neutral_1 text-body-S md:text-body-M font-bold outline-none"
+                className="inline-flex h-[35px] w-full flex-1 items-center justify-center rounded bg-transparent px-2.5 leading-none text-color_neutral_1 text-body-S md:text-body-xL font-bold outline-none"
                 type="text"
                 placeholder="Task title"
                 autoComplete="off"

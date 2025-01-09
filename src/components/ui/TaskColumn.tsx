@@ -26,11 +26,8 @@ const TaskColumn = ({ status, tasks }: TaskColumnProps) => {
           tasks(existingTasks = [], { readField }) {
             return existingTasks.map((taskRef: any) => {
               if (readField("id", taskRef) === data.updateTask.id) {
-                console.log({ ...taskRef, ...data.updateTask });
                 return { ...taskRef, ...data.updateTask };
-              }
-              console.log(existingTasks);
-              
+              }              
               return taskRef;
             });
           },

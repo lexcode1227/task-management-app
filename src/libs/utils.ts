@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { PointEstimate } from "../gql/graphql";
+import { PointEstimate, TaskTag } from "../gql/graphql";
 import { isYesterday } from "date-fns";
 
 interface Option {
@@ -74,6 +74,17 @@ export const formatDueDate = (dueDate: Date) => {
       return formatDate(dueDate);
     }
   };
+
+export const estimatePointOptions = Object.entries(PointEstimate).map(([_, value]) => ({
+  key: value,
+  value: value,
+}))
+
+export const tagsOptions = Object.entries(TaskTag).map(([key, value]) => ({
+  key: key,
+  value: value,
+}));
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
