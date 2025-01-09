@@ -131,7 +131,6 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
           });
           toast.success('Task created successfully');
         }
-        console.log(data);
         
         reset();
         handleClose();
