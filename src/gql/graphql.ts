@@ -182,7 +182,7 @@ export type UpdateTaskMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'Task', id: string, name: string, status: Status, pointEstimate: PointEstimate, tags: Array<TaskTag>, dueDate: any, position: number, assignee?: { __typename?: 'User', id: string, avatar?: string | null, fullName: string } | null } };
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'Task', id: string, name: string, pointEstimate: PointEstimate, status: Status, tags: Array<TaskTag>, createdAt: any, dueDate: any, position: number, assignee?: { __typename?: 'User', id: string, avatar?: string | null, createdAt: any, email: string, fullName: string, type: UserType, updatedAt: any } | null, creator: { __typename?: 'User', id: string, createdAt: any, email: string, fullName: string, type: UserType, updatedAt: any } } };
 
 export const NewTaskFragmentDoc = gql`
     fragment NewTask on Task {
@@ -435,15 +435,28 @@ export const UpdateTaskDocument = gql`
   updateTask(input: $input) {
     id
     name
-    status
     pointEstimate
+    status
     tags
-    dueDate
-    position
     assignee {
       id
       avatar
+      createdAt
+      email
       fullName
+      type
+      updatedAt
+    }
+    createdAt
+    dueDate
+    position
+    creator {
+      id
+      createdAt
+      email
+      fullName
+      type
+      updatedAt
     }
   }
 }

@@ -49,7 +49,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props
         {isOpen && (
           <div className="absolute z-10 mt-1 w-auto md:w-full rounded-lg border border-color_neutral_2 bg-color_neutral_3 shadow-lg">
             {options.map((option) => (
-              <div className="inline-flex items-center">
+              <div className="inline-flex items-center" key={option.key}>
                 <label
                   key={option.value}
                   className="relative flex cursor-pointer items-center gap-2 p-2"

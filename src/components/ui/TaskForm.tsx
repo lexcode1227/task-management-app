@@ -33,9 +33,14 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
       });
     
     useEffect(() => {
-      if (task) {
-        setValue("tags", task.tags);
-      }
+    if (task) {
+      setValue('name', task.name);
+      setValue('pointEstimate', task.pointEstimate);
+      setValue('assigneeId', task.assignee?.id);
+      setValue('tags', task.tags);
+      setValue('dueDate', task.dueDate ? new Date(task.dueDate) : null);
+      setValue('status', task.status);
+    }
     }, [task, setValue]);
     
     const selectedTags = watch('tags', []);
@@ -57,10 +62,14 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
         });
       },
     });
-    const [updateTaskMutation, { loading: updateTaskLoading, error: updateTaskError }] = useUpdateTaskMutation({
+    
+    const [
+      updateTaskMutation,
+      { loading: updateTaskLoading, error: updateTaskError },
+    ] = useUpdateTaskMutation({
       update(cache, { data }) {
         if (!data?.updateTask) return;
-  
+
         cache.modify({
           fields: {
             tasks(existingTasks = [], { readField }) {
@@ -74,6 +83,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
           },
         });
       },
+      refetchQueries: ["getTasks"],
     });
 
     const handleTagsChange = (selectedValues: any) => {
@@ -124,6 +134,8 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
           });
           toast.success('Task created successfully');
         }
+        console.log(data);
+        
         reset();
         handleClose();
       } catch (err) {

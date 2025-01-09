@@ -1,7 +1,5 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import React from "react";
-// import { Task } from "../../gql/graphql";
-// type TaskID = Pick<Task, "id">;
 interface DropdownOption {
   label: string;
   icon: React.ReactNode;
@@ -15,13 +13,19 @@ interface DropdownProps {
 }
 
 const Dropdown = ({ title, icon, options }: DropdownProps) => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
   return (
     <div>
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild>
+      <DropdownMenu.Root open={open} onOpenChange={setOpen}>
+        <DropdownMenu.Trigger asChild draggable={false}>
           <button
             aria-label="Customise options"
             className="focus:shadow-outline-none inline-flex size-[35px] items-center justify-center rounded-full bg-transparent text-color_neutral_3 outline-0 hover:border-none hover:bg-color_neutral_4 focus:shadow-[0_0_0_2px] focus-visible:outline-none focus-visible:ring-0"
+            onClick={handleOpen}
           >
             {icon && <span>{icon}</span>}
             {title}

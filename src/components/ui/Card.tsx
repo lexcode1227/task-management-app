@@ -31,9 +31,11 @@ const Card = ({ task }: { task: Task }) => {
         },
       });
     },
+    refetchQueries: ["getTasks"],
   });
 
   const handleDelete = async () => {
+    
     try {
       if (confirm(`Deleting task with id: ${task.id}`) == true) {
         (await deleteTaskMutation({
@@ -61,9 +63,14 @@ const Card = ({ task }: { task: Task }) => {
   if (error) return <ErrorLayout message={error.message} />;
 
   return (
-    <article className="flex h-auto w-full flex-col items-center gap-[15px] rounded-lg bg-color_neutral_4 p-4 text-white">
+    <article
+      id={task.id}
+      className="flex h-auto w-full flex-col items-center gap-[15px] rounded-lg bg-color_neutral_4 p-4 text-white"
+    >
       <div className="flex w-full items-center justify-between">
-        <h3 className="py-[2.5px] text-body-L font-bold">{task.name}</h3>
+        <h3 className="kanban-handle py-[2.5px] text-body-L font-bold">
+          {task.name}
+        </h3>
         <Dropdown
           icon={<MenuDotsIcon height={24} width={24} />}
           options={[
@@ -84,9 +91,18 @@ const Card = ({ task }: { task: Task }) => {
         <h4 className="text-body-M font-bold">
           {formatEstimatePoint(task.pointEstimate)} Points
         </h4>
-        <Tags icon={<ClockIcon />} titleTag={(formatDueDate(task.dueDate))} variant={(getTodayDate() > task.dueDate || formatDueDate(task.dueDate) === "YESTERDAY") ? "RAILS" : undefined} />
+        <Tags
+          icon={<ClockIcon />}
+          titleTag={formatDueDate(task.dueDate)}
+          variant={
+            getTodayDate() > task.dueDate ||
+            formatDueDate(task.dueDate) === "YESTERDAY"
+              ? "RAILS"
+              : undefined
+          }
+        />
       </div>
-      <div className="flex w-full items-center justify-start flex-wrap gap-2">
+      <div className="flex w-full flex-wrap items-center justify-start gap-2">
         {task?.tags?.map((tag) => (
           <Tags key={tag} titleTag={tag} variant={tag} />
         ))}

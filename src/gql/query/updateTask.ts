@@ -5,15 +5,28 @@ export const UPDATE_TASK = gql`
     updateTask(input: $input) {
       id
       name
-      status
       pointEstimate
+      status
       tags
-      dueDate
-      position
       assignee {
         id
         avatar
+        createdAt
+        email
         fullName
+        type
+        updatedAt
+      }
+      createdAt
+      dueDate
+      position
+      creator {
+        id
+        createdAt
+        email
+        fullName
+        type
+        updatedAt
       }
     }
   }
