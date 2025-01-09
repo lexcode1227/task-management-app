@@ -55,7 +55,7 @@ body {
 }
 
 body .react-datepicker {
-  @apply bg-color_neutral_5 text-color_neutral_1;
+  @apply bg-color_neutral_5 text-color_neutral_1 mr-[73px] md:mr-0;
 }
 
 body .react-datepicker__header {

@@ -162,11 +162,11 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
               />
             </Form.Control>
           </Form.Field>
-          <div className="flex w-full gap-2.5">
+          <div className="flex flex-wrap md:flex-nowrap justify-center md:justify-start w-full gap-2.5">
             {optionsInput.map((option) => (
               <Form.Field
                 key={option.title === "Estimate" ? "pointEstimate" : "assigneeId"}
-                className="mb-2.5 grid w-1/4 text-color_neutral_2"
+                className="mb-2.5 grid w-[48%] md:w-1/4 text-color_neutral_2"
                 name={option.title === "Estimate" ? "pointEstimate" : "assigneeId"}
               >
                 <div className="flex items-baseline justify-between">
@@ -197,7 +197,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
                 </Form.Control>
               </Form.Field>
             ))}
-            <Form.Field key="tags" className="mb-2.5 grid w-1/4 text-color_neutral_2" name="tags">
+            <Form.Field key="tags" className="mb-2.5 grid w-[48%] md:w-1/4 text-color_neutral_2" name="tags">
                 {errors.tags &&
                   <Form.Message
                     className="text-[13px] text-white opacity-80"
@@ -223,7 +223,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
             </Form.Field>
 
             <Form.Field
-              className="mb-2.5 grid w-1/4 text-color_neutral_2"
+              className="mb-2.5 grid w-[48%] md:w-1/4 text-color_neutral_2"
               name="dueDate"
               key="dueDate"
             >
