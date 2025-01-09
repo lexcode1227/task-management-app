@@ -43,7 +43,7 @@ const Sidebar = ({ isSidebarOpen, loading, handleSidebarToggle }: SidebarProps) 
       <button
         onClick={handleSidebarToggle}
         className={cn(
-          "fixed -right-9 bottom-16 z-10 rounded-lg bg-transparent border border-color_primary_4 p-2 text-color_primary_4 transition-all duration-300 md:hidden",
+          "fixed -right-10 bottom-16 z-10 rounded-lg rounded-l-none bg-transparent border-color_primary_4 p-2 text-color_primary_4 transition-all duration-300 md:hidden",
         )}
       >
         {isSidebarOpen ? (
