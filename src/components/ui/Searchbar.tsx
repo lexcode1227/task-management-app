@@ -33,7 +33,7 @@ const Searchbar = () => {
           width={24}
         />
         <input
-          className="col-start-1 row-start-1 block h-16 w-full rounded-2xl bg-color_neutral_4 ps-12 text-color_neutral_2 focus:outline-none focus:ring-0"
+          className="col-start-1 row-start-1 block h-16 w-full rounded-2xl bg-color_neutral_4 ps-16 text-color_neutral_2 focus:outline-none focus:ring-0"
           name="search"
           onChange={handleChange}
           type="text"

@@ -3,7 +3,7 @@ interface ErrorProps {
   onRetry?: () => void;
 }
 
-const ErrorLayout = ({ message, onRetry }: ErrorProps) => {
+const Error = ({ message, onRetry }: ErrorProps) => {
   return (
     <div className="flex h-full flex-col items-center justify-center rounded-lg bg-color_neutral_5 p-4 text-color_neutral_2">
       <h2 className="mb-2 text-xl font-bold">Error</h2>
@@ -20,4 +20,4 @@ const ErrorLayout = ({ message, onRetry }: ErrorProps) => {
   );
 };
 
-export default ErrorLayout;
+export default Error;

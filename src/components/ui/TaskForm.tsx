@@ -63,10 +63,7 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
       },
     });
     
-    const [
-      updateTaskMutation,
-      { loading: updateTaskLoading, error: updateTaskError },
-    ] = useUpdateTaskMutation({
+    const [updateTaskMutation, { loading: updateTaskLoading, error: updateTaskError }] = useUpdateTaskMutation({
       update(cache, { data }) {
         if (!data?.updateTask) return;
 

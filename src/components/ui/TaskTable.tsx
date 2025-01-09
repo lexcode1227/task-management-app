@@ -11,7 +11,7 @@ import Tags from "./Tags";
 
 interface TaskTableProps {
   status: Status;
-  tasks: Task[];
+  tasks: Task[] | undefined;
 }
 
 const TaskTable = ({ status, tasks }: TaskTableProps) => {
@@ -26,13 +26,13 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
             aria-hidden
           />
           {formatStatus(status)}{" "}
-          <p className="text-color_neutral_2">({tasks.length})</p>
+          <p className="text-color_neutral_2">({tasks?.length})</p>
         </AccordionTrigger>
         <AccordionContent className="accordion-content">
           <table className="h-auto w-full border-collapse border-spacing-x-0 border-spacing-y-[15px] rounded-xl text-justify">
             <tbody className="flex flex-col bg-color_neutral_4 text-body-M text-color_neutral_1">
-              {tasks.length !== 0 ? 
-                tasks.map((task, index) => (
+              {tasks?.length !== 0 ? 
+                tasks?.map((task, index) => (
                 <tr
                   className="flex h-14 w-full items-center justify-between text-body-M text-color_neutral_1"
                   key={task.id}
