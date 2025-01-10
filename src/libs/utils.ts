@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { PointEstimate, TaskTag } from "../gql/graphql";
-import { isYesterday } from "date-fns";
+import { differenceInDays, isYesterday } from "date-fns";
 
 interface Option {
   key: string;
@@ -74,6 +74,19 @@ export const formatDueDate = (dueDate: Date) => {
       return formatDate(dueDate);
     }
   };
+
+export const getDueDateColor = (dueDate: Date): string => {
+  const today = new Date();
+  const daysDifference = differenceInDays(dueDate, today);
+
+  if (dueDate < today) {
+    return "red";
+  } else if (daysDifference <= 2) {
+    return "yellow";
+  } {
+    return "green";
+  }
+}
 
 export const estimatePointOptions = Object.entries(PointEstimate).map(([_, value]) => ({
   key: value,

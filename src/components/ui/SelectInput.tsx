@@ -52,7 +52,7 @@ const SelectInput = React.forwardRef<HTMLButtonElement, SelectInputProps>(
                   >
                     <Select.Icon className="text-color_neutral_2">
                       {titleSelect === "Estimate" ? (
-                        <span className="text-color_neutral_2">{icon}</span>
+                        <span className="text-color_neutral_1">{icon}</span>
                       ) : (
                         <img
                           className="h-8 w-8 rounded-full"

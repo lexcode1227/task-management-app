@@ -41,7 +41,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props
             formatSelectedValues(options, selectedValues)
           ) : (
             <>
-              <TagIcon width={24} className="text-color_neutral_2" />
+              <TagIcon width={24} />
               {"Label"}
             </>
           )}
