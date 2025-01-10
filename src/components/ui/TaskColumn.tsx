@@ -56,33 +56,50 @@ const TaskColumn = ({ status, tasks }: TaskColumnProps) => {
     }
   };
 
-  // const handleReorder = (reorderedTasks: Task[]) => {
-  //   setTaskList(reorderedTasks);
-  // };
+  const handleReorder = async (reorderedTasks: Task[]) => {
+    try {
+      const updatedTasks = reorderedTasks.map((task, index) => ({
+        ...task,
+        position: index,
+      }));
 
-  const [taskListRef, taskItems] = useDragAndDrop<HTMLDivElement, Task>(taskList, {
+      setTaskList(updatedTasks);
+
+      for (const task of updatedTasks) {
+        await updateTaskMutation({
+          variables: {
+            input: {
+              id: task.id,
+              position: task.position,
+            },
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Failed to reorder tasks:", error);
+    }  };
+
+  const [taskListRef, _taskItems, setTaskItems] = useDragAndDrop<HTMLDivElement, Task>(taskList, {
     group: "taskList",
-    onDragend: async (selectedTask) => {
-      console.log(selectedTask);
-      console.log(taskItems);
-      
+    onDragend: async (selectedTask) => {      
       const draggedTask = selectedTask.draggedNode.data.value as Task;
       const newStatus = selectedTask.parent?.el?.id as Status;
 
       if (newStatus && draggedTask.status !== newStatus) {
+        console.log("Task moved to another status");        
         await handleDrop(draggedTask, newStatus);
       } else {
-        // handleReorder(selectedTask);
+        await handleReorder(selectedTask.values as Task[]);
+        console.log("Task moved within the same status");
       }
     },
   });
 
   useEffect(() => {
     setTaskList(tasks ?? []);
-    console.log(taskItems);
-    console.log(taskList);
+    setTaskItems(tasks ?? []);
     
-  }, [tasks]);
+  }, [tasks, status]);
 
   return (
     <section className="flex w-full min-w-[348px] max-w-[350px] flex-1 flex-col gap-4">

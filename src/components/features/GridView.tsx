@@ -1,6 +1,6 @@
 import { Status, Task } from "../../gql/graphql";
-// import TaskColumn from "../ui/TaskColumn";
-import TaskColumnExample from "../ui/TaskColumnExample";
+import TaskColumn from "../ui/TaskColumn";
+// import TaskColumnExample from "../ui/TaskColumnExample";
 
 interface GridViewProps {
   statusOptions: Status[];
@@ -11,7 +11,7 @@ const GridView = ({ statusOptions, tasks }: GridViewProps) => {
   return (
     <div className="flex min-w-max gap-8">
       { tasks && tasks.length > 0 ? statusOptions.map((status) => (
-        <TaskColumnExample
+        <TaskColumn
           key={status}
           status={status}
           tasks={tasks?.length !== 0 ? tasks?.filter((task) => task.status === status) : []}
