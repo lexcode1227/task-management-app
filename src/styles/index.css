@@ -7,11 +7,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --background: 245, 246, 246;
-  --secondBackground: 228, 232, 233;
-  --terciaryBackground: 199 201 217;
-  --mainlyColor: 84, 94, 102;
-  --secondColor: 126, 140, 146;
+  --primary4: 0, 191, 255;
+  --neutral5: 255, 255, 255;
+  --neutral4: 230 230 250;
+  --neutral3: 245, 246, 252;
+  --neutral2: 126, 140, 146;
+  --neutral1: 84, 94, 102;
 }
 
 * {
@@ -21,11 +22,12 @@
 }
 
 .dark {
-  --background: 34, 37, 40;
-  --secondBackground: 44, 47, 51;
-  --terciaryBackground: 57, 61, 65;
-  --mainlyColor: 255, 255, 255;
-  --secondColor: 148, 151, 154;
+  --primary4: 218, 88, 75;
+  --neutral5: 34, 37, 40;
+  --neutral4: 44, 47, 51;
+  --neutral3: 57, 61, 65;
+  --neutral2: 148, 151, 154;
+  --neutral1: 255, 255, 255;
 }
 
   @font-face {
