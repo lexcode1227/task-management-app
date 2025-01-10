@@ -8,9 +8,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --primary4: 0, 191, 255;
-  --neutral5: 255, 255, 255;
-  --neutral4: 230 230 250;
-  --neutral3: 245, 246, 252;
+  --neutral5: 230 230 250;
+  --neutral4: 255, 255, 255;
+  --neutral3: 230 230 250;
   --neutral2: 126, 140, 146;
   --neutral1: 84, 94, 102;
 }

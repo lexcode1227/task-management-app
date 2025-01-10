@@ -4,9 +4,9 @@ import ChevronDownIcon from "../../assets/icons/chevron-down.svg?react";
 import { cn, formatDueDate, formatEstimatePoint, formatStatus, getDueDateColor, getTodayDate } from "../../libs/utils";
 import Tags from "./Tags";
 import GridHorizontalIcon from "../../assets/icons/grid-horizontal.svg?react";
-// import { useDragAndDrop } from "@formkit/drag-and-drop/react";
+import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 // import { useState } from "react";
-// import { useEffect } from "react";
+import { useEffect } from "react";
 
 interface TaskTableProps {
   status: Status;
@@ -16,22 +16,22 @@ interface TaskTableProps {
 const TaskTable = ({ status, tasks }: TaskTableProps) => {
     // const [todoList, setTodoList] = useState(tasks || []);
 
-  // const [parentRef, values, setValues] = useDragAndDrop<HTMLTableElement, Task>(tasks ?? [], {
-  //   group: "taskList",
-  //   dragHandle: ".drag-handle",
-  //   onDragend: async (selectedTask) => {
-  //     console.log(values);
-  //     console.log(selectedTask);
-  //     if (selectedTask.parent?.el?.id !== status) {
-  //       console.log("Task moved to another status");
-  //     }
-  //   },
-  // }
-  // )
+  const [parentRef, values, setValues] = useDragAndDrop<HTMLTableSectionElement, Task>(tasks ?? [], {
+    group: "taskList",
+    // dragHandle: ".drag-handle",
+    onDragend: async (selectedTask) => {
+      console.log(values);
+      console.log(selectedTask);
+      if (selectedTask.parent?.el?.id !== status) {
+        console.log("Task moved to another status");
+      }
+    },
+  }
+  )
 
-  // useEffect(() => {
-  //   setValues(tasks ?? []);
-  // }, [tasks]);
+  useEffect(() => {
+    setValues(tasks ?? []);
+  }, [tasks]);
 
   return (
     <Accordion className="w-full min-w-[348px]" collapsible type="single">
@@ -48,9 +48,9 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
         </AccordionTrigger>
         <AccordionContent className="accordion-content">
           <table className="h-auto w-full border-collapse border-spacing-x-0 border-spacing-y-[15px] rounded-xl text-justify">
-            <tbody className="flex flex-col bg-color_neutral_4 text-body-M text-color_neutral_1">
+            <tbody ref={parentRef.current as React.LegacyRef<HTMLTableSectionElement>} className="flex flex-col bg-color_neutral_4 text-body-M text-color_neutral_1">
               {tasks?.length !== 0 ? (
-                tasks?.map((task, index) => (
+                values?.map((task, index) => (
                   <tr
                     className="flex h-14 w-full items-center justify-between text-body-M text-color_neutral_1 last:rounded-ee-lg last:rounded-es-lg"
                     key={task.id}
@@ -61,7 +61,7 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
                       </span>
                       <span
                         className={cn("absolute left-0 h-[80%] w-1", {
-                          "bg-color_primary_4":
+                          "bg-[#DA584B]":
                             getDueDateColor(new Date(task.dueDate)) === "red",
                           "bg-yellow-500":
                             getDueDateColor(new Date(task.dueDate)) ===

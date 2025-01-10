@@ -63,7 +63,7 @@ const Sidebar = ({ isSidebarOpen, loading, handleSidebarToggle }: SidebarProps) 
                     cn(
                       "relative flex h-14 items-center gap-4 hover:text-color_primary_4",
                       {
-                        "border-r-4 border-r-color_primary_4 text-color_primary_4 bg-gradient-to-r from-[#BA252500] from-10% to-[#D24D4D1A] to-100%":
+                        "border-r-4 border-r-color_primary_4 text-color_primary_4 bg-gradient-to-r from-[#BA252500] from-10% to-[#d24d4d17] to-100%":
                           isActive,
                         "text-color_neutral_2": !isActive,
                       },
