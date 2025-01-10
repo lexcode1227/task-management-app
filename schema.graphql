@@ -1,0 +1,111 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+input CreateTaskInput {
+  assigneeId: String
+  dueDate: DateTime!
+  name: String!
+  pointEstimate: PointEstimate!
+  status: Status!
+  tags: [TaskTag!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DeleteTaskInput {
+  id: String!
+}
+
+input FilterTaskInput {
+  assigneeId: String
+  dueDate: DateTime
+  name: String
+  ownerId: String
+  pointEstimate: PointEstimate
+  status: Status
+  tags: [TaskTag!]
+}
+
+type Mutation {
+  createTask(input: CreateTaskInput!): Task!
+  deleteTask(input: DeleteTaskInput!): Task!
+  updateTask(input: UpdateTaskInput!): Task!
+}
+
+"""Estimate point for a task"""
+enum PointEstimate {
+  EIGHT
+  FOUR
+  ONE
+  TWO
+  ZERO
+}
+
+type Query {
+  profile: User!
+  tasks(input: FilterTaskInput!): [Task!]!
+  users: [User!]!
+}
+
+"""Status for Task"""
+enum Status {
+  BACKLOG
+  CANCELLED
+  DONE
+  IN_PROGRESS
+  TODO
+}
+
+type Task {
+  assignee: User
+  createdAt: DateTime!
+  creator: User!
+  dueDate: DateTime!
+  id: ID!
+  name: String!
+  pointEstimate: PointEstimate!
+  position: Float!
+  status: Status!
+  tags: [TaskTag!]!
+}
+
+"""Enum for tags for tasks"""
+enum TaskTag {
+  ANDROID
+  IOS
+  NODE_JS
+  RAILS
+  REACT
+}
+
+input UpdateTaskInput {
+  assigneeId: String
+  dueDate: DateTime
+  id: String!
+  name: String
+  pointEstimate: PointEstimate
+  position: Float
+  status: Status
+  tags: [TaskTag!]
+}
+
+type User {
+  avatar: String
+  createdAt: DateTime!
+  email: String!
+  fullName: String!
+  id: ID!
+  type: UserType!
+  updatedAt: DateTime!
+}
+
+"""Type of the User"""
+enum UserType {
+  ADMIN
+  CANDIDATE
+}

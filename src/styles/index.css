@@ -7,6 +7,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --primary4: 0, 191, 255;
+  --neutral5: 230 230 250;
+  --neutral4: 255, 255, 255;
+  --neutral3: 230 230 250;
+  --neutral2: 126, 140, 146;
+  --neutral1: 84, 94, 102;
 }
 
 * {
@@ -15,3 +21,139 @@
   padding: 0;
 }
 
+.dark {
+  --primary4: 218, 88, 75;
+  --neutral5: 34, 37, 40;
+  --neutral4: 44, 47, 51;
+  --neutral3: 57, 61, 65;
+  --neutral2: 148, 151, 154;
+  --neutral1: 255, 255, 255;
+}
+
+  @font-face {
+    font-family: 'SFProDisplayBold';
+    font-style: bold;
+    font-weight: 700;
+    font-display: swap;
+    src: url("../assets/fonts/SFPRODISPLAYBOLD.OTF") format('otf');
+  }
+  @font-face {
+    font-family: 'SFProDisplayRegular';
+    font-style: regular;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../assets/fonts/SFPRODISPLAYREGULAR.OTF") format('otf');
+  }
+
+::-webkit-scrollbar {
+  display: none;
+  width: 6px;
+  background: #222528;
+}
+
+::-webkit-scrollbar-track {
+  background: #222528;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #393D41;
+  border-radius: 10px;
+}
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  overscroll-behavior: none;
+  font-family: 'SFProDisplayRegular', sans-serif;
+}
+
+body .react-datepicker {
+  @apply bg-color_neutral_5 text-color_neutral_1 mr-[73px] md:mr-0;
+}
+
+body .react-datepicker__header {
+  @apply bg-color_neutral_5 border-b-0;
+}
+
+body .react-datepicker__navigation {
+  @apply text-color_neutral_1 top-2.5;
+}
+
+body .react-datepicker__week {
+  @apply grid grid-cols-7 gap-1 bg-color_neutral_5;
+}
+
+body .react-datepicker__day-names {
+  @apply grid grid-cols-7 gap-1 border-t border-color_neutral_2 py-2;
+}
+
+body .react-datepicker__day-name {
+  @apply text-center text-sm font-medium text-color_neutral_1;
+}
+
+body .react-datepicker__day {
+  @apply flex h-8 w-8 items-center justify-center text-sm text-color_neutral_1;
+}
+
+body .react-datepicker__day:not([aria-disabled=true]):hover {
+  @apply bg-color_primary_4;
+}
+
+body .react-datepicker__day--selected,
+      .react-datepicker__day--keyboard-selected {
+  @apply bg-transparent border border-color_primary_4 font-semibold text-color_neutral_1;
+}
+
+body .react-datepicker__day--keyboard-selected {
+  @apply bg-transparent;
+}
+
+body .react-datepicker__day--today {
+  @apply font-bold text-color_primary_1 bg-color_neutral_5;
+}
+
+body .react-datepicker__day--outside-month {
+  @apply text-color_neutral_2 opacity-50;
+}
+
+body .react-datepicker__month {
+  @apply bg-color_neutral_5 m-0 text-color_neutral_1;
+}
+
+body h2.react-datepicker__current-month {
+  @apply text-center text-sm font-semibold text-color_neutral_1 m-1 p-1;
+}
+
+body .react-datepicker__month-dropdown,
+body .react-datepicker__year-dropdown {
+  @apply mt-1 rounded-md border border-color_neutral_2 bg-color_neutral_3;
+}
+
+body .react-datepicker__year-option {
+  @apply cursor-pointer text-sm hover:bg-color_neutral_4;
+}
+
+body .react-datepicker__today-button {
+  @apply bg-color_neutral_5 text-color_primary_4 text-sm font-normal rounded-b-md border-solid border-t-2 border-color_neutral_2;
+}
+
+body .react-datepicker__aria-live {
+  position: absolute;
+  clip-path: circle(0);
+  border: 0;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  width: 1px;
+  white-space: nowrap;
+}
+
+.AccordionChevron {
+  transition: transform 300ms;
+}
+.AccordionTrigger[data-state="open"] > .AccordionChevron {
+  transform: rotate(180deg);
+}
