@@ -108,7 +108,7 @@ const Card = ({ task }: CardProps) => {
           }
         />
       </div>
-      <div className="flex w-full flex-wrap items-center justify-start gap-2">
+      <div className="flex w-full items-center justify-start gap-2 overflow-x-auto">
         {task?.tags?.map((tag) => (
           <Tags key={tag} titleTag={tag} variant={tag} />
         ))}

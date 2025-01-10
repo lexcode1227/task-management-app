@@ -1,13 +1,12 @@
 import { Status, Task } from "../../gql/graphql";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@radix-ui/react-accordion";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@radix-ui/react-accordion";
 import ChevronDownIcon from "../../assets/icons/chevron-down.svg?react";
 import { cn, formatDueDate, formatEstimatePoint, formatStatus, getTodayDate } from "../../libs/utils";
 import Tags from "./Tags";
+import GridHorizontalIcon from "../../assets/icons/grid-horizontal.svg?react";
+// import { useDragAndDrop } from "@formkit/drag-and-drop/react";
+// import { useState } from "react";
+// import { useEffect } from "react";
 
 interface TaskTableProps {
   status: Status;
@@ -15,6 +14,25 @@ interface TaskTableProps {
 }
 
 const TaskTable = ({ status, tasks }: TaskTableProps) => {
+    // const [todoList, setTodoList] = useState(tasks || []);
+
+  // const [parentRef, values, setValues] = useDragAndDrop<HTMLTableElement, Task>(tasks ?? [], {
+  //   group: "taskList",
+  //   dragHandle: ".drag-handle",
+  //   onDragend: async (selectedTask) => {
+  //     console.log(values);
+  //     console.log(selectedTask);
+  //     if (selectedTask.parent?.el?.id !== status) {
+  //       console.log("Task moved to another status");
+  //     }
+  //   },
+  // }
+  // )
+
+  // useEffect(() => {
+  //   setValues(tasks ?? []);
+  // }, [tasks]);
+
   return (
     <Accordion className="w-full min-w-[348px]" collapsible type="single">
       <AccordionItem className="accordion-item" value="item-1">
@@ -30,14 +48,17 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
         </AccordionTrigger>
         <AccordionContent className="accordion-content">
           <table className="h-auto w-full border-collapse border-spacing-x-0 border-spacing-y-[15px] rounded-xl text-justify">
-            <tbody className="flex flex-col bg-color_neutral_4 text-body-M text-color_neutral_1">
-              {tasks?.length !== 0 ? 
+            <tbody className="flex flex-col bg-color_neutral_4 text-body-M text-color_neutral_1" >
+              {tasks?.length !== 0 ?
                 tasks?.map((task, index) => (
                 <tr
                   className="flex h-14 w-full items-center justify-between text-body-M text-color_neutral_1"
                   key={task.id}
                 >
-                  <td className="relative flex h-14 w-2/5 min-w-80 items-center border border-color_neutral_3 pl-4">
+                  <td className="relative flex gap-3 h-14 w-2/5 min-w-80 items-center border border-color_neutral_3 pl-4">
+                    <span className="drag-handle">
+                      <GridHorizontalIcon className="text-color_neutral_2"/>
+                    </span>
                     <span
                       className={cn("absolute left-0 h-[80%] w-1", {
                         "bg-color_neutral_1": task.status === Status.Backlog,
@@ -102,7 +123,7 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
                     {formatDueDate(task.dueDate)}
                   </td>
                 </tr>
-              )) : 
+              )) :
               <tr className="flex h-14 w-full items-center justify-between text-body-M text-color_neutral_1">
                 <td className="flex h-14 w-full items-center justify-center border border-color_neutral_3 pl-4">
                   No tasks found

@@ -7,6 +7,8 @@ interface TableViewProps {
 }
 
 const TableView = ({ statusOptions, tasks }: TableViewProps) => {
+  console.log("TableView: ", tasks);
+  
   return (
     <div className="flex h-[calc(100vh-240px)] min-w-max flex-col gap-8 overflow-y-auto">
       <table className="h-auto w-full min-w-[348px] border-collapse border-spacing-x-0 border-spacing-y-[15px] text-justify">
