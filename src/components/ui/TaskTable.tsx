@@ -1,12 +1,11 @@
-import { Status, Task } from "../../gql/graphql";
+import { Status, Task, useUpdateTaskMutation } from "../../gql/graphql";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@radix-ui/react-accordion";
 import ChevronDownIcon from "../../assets/icons/chevron-down.svg?react";
 import { cn, formatDueDate, formatEstimatePoint, formatStatus, getDueDateColor, getTodayDate } from "../../libs/utils";
 import Tags from "./Tags";
 import GridHorizontalIcon from "../../assets/icons/grid-horizontal.svg?react";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
-// import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 interface TaskTableProps {
   status: Status;
@@ -14,24 +13,89 @@ interface TaskTableProps {
 }
 
 const TaskTable = ({ status, tasks }: TaskTableProps) => {
-    // const [todoList, setTodoList] = useState(tasks || []);
+  const [taskList, setTaskList] = useState<Task[]>(tasks ?? []);
 
-  const [parentRef, values, setValues] = useDragAndDrop<HTMLTableSectionElement, Task>(tasks ?? [], {
+  const [updateTaskMutation] = useUpdateTaskMutation({
+    update(cache, { data }) {
+      if (!data?.updateTask) return;
+
+      cache.modify({
+        fields: {
+          tasks(existingTasks = [], { readField }) {
+            return existingTasks.map((taskRef: any) => {
+              if (readField("id", taskRef) === data.updateTask.id) {
+                return { ...taskRef, ...data.updateTask };
+              }
+              return taskRef;
+            });
+          },
+        },
+      });
+    },
+  });
+
+  const handleDrop = async (draggedTask: Task, newStatus: Status) => {
+    try {
+      if (draggedTask.status === newStatus) {
+        console.log("Task moved within the same status");
+        return;
+      }
+      await updateTaskMutation({
+        variables: {
+          input: {
+            id: draggedTask.id,
+            status: newStatus,
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Failed to update task status:", error);
+    }
+  };
+
+  const handleReorder = async (reorderedTasks: Task[]) => {
+    try {
+      const updatedTasks = reorderedTasks.map((task, index) => ({
+        ...task,
+        position: index,
+      }));
+
+      setTaskList(updatedTasks);
+
+      for (const task of updatedTasks) {
+        await updateTaskMutation({
+          variables: {
+            input: {
+              id: task.id,
+              position: task.position,
+            },
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Failed to reorder tasks:", error);
+    }
+  };
+
+  const [taskListRef, _taskItems, setTaskItems] = useDragAndDrop<HTMLTableSectionElement, Task>(taskList, {
     group: "taskList",
-    // dragHandle: ".drag-handle",
+    dragHandle: ".kanban-handle",
     onDragend: async (selectedTask) => {
-      console.log(values);
-      console.log(selectedTask);
-      if (selectedTask.parent?.el?.id !== status) {
-        console.log("Task moved to another status");
+      const draggedTask = selectedTask.draggedNode.data.value as Task;
+      const newStatus = selectedTask.parent?.el?.id as Status;
+
+      if (newStatus && draggedTask.status !== newStatus) {
+        await handleDrop(draggedTask, newStatus);
+      } else {
+        await handleReorder(selectedTask.values as Task[]);
       }
     },
-  }
-  )
+  });
 
   useEffect(() => {
-    setValues(tasks ?? []);
-  }, [tasks]);
+    setTaskList(tasks ?? []);
+    setTaskItems(tasks ?? []);
+  }, [tasks, status]);
 
   return (
     <Accordion className="w-full min-w-[348px]" collapsible type="single">
@@ -48,9 +112,9 @@ const TaskTable = ({ status, tasks }: TaskTableProps) => {
         </AccordionTrigger>
         <AccordionContent className="accordion-content">
           <table className="h-auto w-full border-collapse border-spacing-x-0 border-spacing-y-[15px] rounded-xl text-justify">
-            <tbody ref={parentRef.current as React.LegacyRef<HTMLTableSectionElement>} className="flex flex-col bg-color_neutral_4 text-body-M text-color_neutral_1">
-              {tasks?.length !== 0 ? (
-                values?.map((task, index) => (
+            <tbody ref={taskListRef} className="flex flex-col bg-color_neutral_4 text-body-M text-color_neutral_1">
+              {taskList?.length !== 0 ? (
+                taskList?.map((task, index) => (
                   <tr
                     className="flex h-14 w-full items-center justify-between text-body-M text-color_neutral_1 last:rounded-ee-lg last:rounded-es-lg"
                     key={task.id}

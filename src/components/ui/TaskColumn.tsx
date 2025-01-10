@@ -9,11 +9,6 @@ interface TaskColumnProps {
   tasks: Task[] | undefined;
 }
 
-// interface HandleUpdateTask {
-//   taskId: string;
-//   newTaskStatus: Status;
-// }
-
 const TaskColumn = ({ status, tasks }: TaskColumnProps) => {
   const [taskList, setTaskList] = useState<Task[]>(tasks ?? []);
 
@@ -34,7 +29,6 @@ const TaskColumn = ({ status, tasks }: TaskColumnProps) => {
         },
       });
     },
-    refetchQueries: ["getTasks"],
   });
 
   const handleDrop = async (draggedTask: Task, newStatus: Status) => {
@@ -86,11 +80,9 @@ const TaskColumn = ({ status, tasks }: TaskColumnProps) => {
       const newStatus = selectedTask.parent?.el?.id as Status;
 
       if (newStatus && draggedTask.status !== newStatus) {
-        console.log("Task moved to another status");        
         await handleDrop(draggedTask, newStatus);
       } else {
         await handleReorder(selectedTask.values as Task[]);
-        console.log("Task moved within the same status");
       }
     },
   });
