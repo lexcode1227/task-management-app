@@ -37,7 +37,7 @@ const Dropdown = ({ title, icon, options }: DropdownProps) => {
         >
           {options.map((option, index) => (
             <DropdownMenu.Item
-              className="flex cursor-pointer items-center gap-2 rounded-md p-2 text-body-M font-bold text-white hover:bg-color_neutral_4 focus:outline-none"
+              className="flex cursor-pointer items-center gap-2 rounded-md p-2 text-body-M font-bold text-color_neutral_1 hover:bg-color_neutral_4 focus:outline-none"
               key={index}
               onClick={() => option.onClick()}
             >

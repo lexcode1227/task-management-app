@@ -41,7 +41,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props
             formatSelectedValues(options, selectedValues)
           ) : (
             <>
-              <TagIcon width={24} color="white" />
+              <TagIcon width={24} className="text-color_neutral_2" />
               {"Label"}
             </>
           )}
@@ -61,7 +61,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>((props
                     onChange={() => handleCheckboxChange(option.value)}
                     className="checked:bg-traborder-transparent peer h-5 w-5 cursor-pointer appearance-none rounded border border-color_neutral_1 text-body-S shadow transition-all checked:border-transparent hover:shadow-md md:text-body-M"
                   />
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 transform text-white opacity-0 peer-checked:opacity-100">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 transform text-color_neutral_1 opacity-0 peer-checked:opacity-100">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-3.5 w-3.5"

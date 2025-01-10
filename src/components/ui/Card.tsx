@@ -71,7 +71,7 @@ const Card = ({ task }: CardProps) => {
   return (
     <article
       id={task.id}
-      className="flex h-auto w-full flex-col items-center gap-[15px] rounded-lg bg-color_neutral_4 p-4 text-white"
+      className="flex h-auto w-full flex-col items-center gap-[15px] rounded-lg bg-color_neutral_4 p-4 text-color_neutral_1"
     >
       <div className="flex w-full items-center justify-between">
         <h3 className="kanban-handle py-[2.5px] text-body-L font-bold">

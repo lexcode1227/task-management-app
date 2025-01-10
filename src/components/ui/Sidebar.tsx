@@ -1,4 +1,4 @@
-import logoRavn from "../../assets/images/Logo-Ravn.svg";
+import Ravn from "../../assets/images/Logo-Ravn.svg?react";
 import { NavLink } from "react-router";
 import DashboardIcon from "../../assets/icons/menu-square.svg?react";
 import TasksIcon from "../../assets/icons/menu-hamburguer.svg?react";
@@ -53,7 +53,7 @@ const Sidebar = ({ isSidebarOpen, loading, handleSidebarToggle }: SidebarProps) 
         )}
       </button>
       <div className="flex w-full flex-col items-center">
-        <img alt="logo Ravn" className="mb-11 size-12" src={logoRavn} />
+        <Ravn className="mb-11 size-12 text-color_neutral_1" />
         <nav className="w-full font-bold text-color_neutral_2">
           <ul className="flex w-full flex-col gap-2 text-[15px]">
             {navLinks.map((navLinkItem, index) => (

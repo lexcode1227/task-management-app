@@ -91,12 +91,12 @@ const TaskForm = ({ task, handleClose }: FormProps) => {
     const optionsInput = [
     {
         title: "Estimate",
-        icon: <EstimateIcon />,
+        icon: <EstimateIcon className="text-color_neutral_2"/>,
         options: estimatePointOptions
     },
     {
         title: "Assignee",
-        icon: <UserIcon />,
+        icon: <UserIcon className="text-color_neutral_2"/>,
         options: usersData?.users.map((user) => ({
           key: user.fullName,
           value: user.id,
