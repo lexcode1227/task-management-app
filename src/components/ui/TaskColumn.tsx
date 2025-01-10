@@ -107,9 +107,17 @@ const TaskColumn = ({ status, tasks }: TaskColumnProps) => {
         ref={taskListRef}
       >
         {taskList.length !== 0 ? (
-          taskList.map((task) => <Card key={task.id} task={task} data-label={task.id} />)
+          taskList.map((task) => (
+            <Card key={task.id} task={task} data-label={task.id} />
+          ))
         ) : (
-          <p className="text-body-L text-color_neutral_2">No tasks found</p>
+          <div className="flex w-full items-center justify-center gap-4 bg-color_neutral_4 text-color_neutral_1 rounded-lg">
+            <div className="h-[208px] w-[348px] rounded-lg bg-color_neutral_4 p-4">
+              <p className="text-body-xL text-color_neutral_2 rounded-lg">
+                No tasks found
+              </p>
+            </div>
+          </div>
         )}
       </div>
     </section>

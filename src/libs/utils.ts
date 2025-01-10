@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { PointEstimate, TaskTag } from "../gql/graphql";
+import { PointEstimate, Status, TaskTag } from "../gql/graphql";
 import { differenceInDays, isYesterday } from "date-fns";
 
 interface Option {
@@ -98,6 +98,7 @@ export const tagsOptions = Object.entries(TaskTag).map(([key, value]) => ({
   value: value,
 }));
 
+export const statusOptions = Object.entries(Status).map(([_, value]) => (value))
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
