@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { Toaster } from "sonner";
 import Searchbar from "../ui/Searchbar";
 import Sidebar from "../ui/Sidebar";
@@ -12,6 +12,8 @@ const Layout = () => {
   const setIsSidebarOpen = useAppStore((state) => state.setIsSidebarOpen);  
   const setUser = useAppStore((state) => state.setUser);
   const { data, loading } = useGetProfileInformationQuery();
+
+  const profilePathname = useLocation().pathname.split("/")[1];
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -33,7 +35,9 @@ const Layout = () => {
         />
         <section className="flex w-full flex-col md:w-[calc(100vw-328px)]">
           <Searchbar />
-          <Topbar />
+            { profilePathname !== "profile" &&
+            <Topbar />
+          }
           <section className="mt-4">
             <Outlet />
           </section>
