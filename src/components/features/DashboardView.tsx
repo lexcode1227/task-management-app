@@ -8,12 +8,10 @@ import { statusOptions } from "../../libs/utils";
 
 const DashboardView = () => {
   const viewMode = useAppStore((state) => state.viewMode);
-  const searchByTaskName = useAppStore((state) => state.searchByTaskName);
+  const searchFilter = useAppStore((state) => state.searchFilter);
 
   const { loading, error, data } = useGetTasksQuery({
-    variables: searchByTaskName !== ""
-    ? { input: { name: searchByTaskName } }
-    : { input: {} },
+    variables: { input: searchFilter },
   });
 
   const tasks = data?.tasks || [];

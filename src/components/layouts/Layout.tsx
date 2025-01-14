@@ -35,7 +35,7 @@ const Layout = () => {
         />
         <section className="flex w-full flex-col md:w-[calc(100vw-328px)]">
           <Searchbar />
-            { profilePathname !== "profile" &&
+          { profilePathname !== "profile" &&
             <Topbar />
           }
           <section className="mt-4">

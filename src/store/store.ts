@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Task, User } from "../gql/graphql";
+import { FilterTaskInput, Task, User } from "../gql/graphql";
 
 interface AppState {
   user: User | null;
@@ -7,14 +7,14 @@ interface AppState {
   viewMode: "grid" | "table";
   isEditingMode: boolean;
   taskToEdit: Task | undefined;
-  searchByTaskName: string;
+  searchFilter: FilterTaskInput;
   isSidebarOpen: boolean;
   setUser: (user: User) => void;
   toggleDarkMode: () => void;
   setViewMode: (mode: "grid" | "table") => void;
   setIsEditingMode: (isEditingMode: boolean) => void;
   setTaskToEdit: (task: Task) => void;
-  setSearchByTaskName: (searchByTaskName: string) => void;
+  setSearchFilter: (searchFilter: FilterTaskInput) => void;
   setIsSidebarOpen: (collapseSidebar: boolean) => void;
 }
 
@@ -29,7 +29,7 @@ export const useAppStore = create<AppState>((set) => ({
   viewMode: "grid",
   isEditingMode: false,
   taskToEdit: undefined,
-  searchByTaskName: "",
+  searchFilter: {},
   isSidebarOpen: false,
   setUser: (user: User) => set({ user }),
   toggleDarkMode: () => set((state) => ({
@@ -38,6 +38,6 @@ export const useAppStore = create<AppState>((set) => ({
   setViewMode: (mode) => set({ viewMode: mode }),
   setIsEditingMode: (isEditingMode) => set({ isEditingMode }),
   setTaskToEdit: (task) => set({ taskToEdit: task }),
-  setSearchByTaskName: (searchByTaskName) => set({ searchByTaskName }),
+  setSearchFilter: (filter) => set({ searchFilter: filter }),
   setIsSidebarOpen: (isSidebarOpen) => set({ isSidebarOpen }),
 }));
